@@ -1,15 +1,18 @@
-import * as firebase from 'firebase/app';
-import 'firebase/storage';
-import 'firebase/firestore';
+import * as firebase from "firebase/app";
+import "firebase/storage";
+import "firebase/firestore";
 
-var firebaseConfig = {
-  apiKey: "AIzaSyDLmnoBvnjOQ-AaJgDw1DnVBiTETbcp8LI",
-  authDomain: "the-net-ninja-sandbox.firebaseapp.com",
-  databaseURL: "https://the-net-ninja-sandbox.firebaseio.com",
-  projectId: "the-net-ninja-sandbox",
-  storageBucket: "the-net-ninja-sandbox.appspot.com",
-  messagingSenderId: "485942827092",
-  appId: "1:485942827092:web:1811d9d8f1f5fabcd5b5c1"
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  // projectId: "sneha-painting-gallery",
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MESUREMENT_ID,
 };
 
 // Initialize Firebase
