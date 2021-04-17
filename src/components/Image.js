@@ -1,7 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
+import { projectFirestore } from "../firebase/config";
+
 const Image = ({ setSelectedImg, doc }) => {
+  const collectionRef = projectFirestore.collection("images");
+
+  console.log("docccc", doc);
+
+  // Deletes the image from database
+  const removeImage = (imageId) => {
+    console.log("imageId>>>>", imageId);
+    collectionRef
+      .doc(imageId)
+      .delete()
+      .then(() => {
+        console.log("Image successfully deleted!");
+      })
+      .catch((error) => {
+        console.log("Error deleting image", error);
+      });
+  };
+
   return (
     <div className='column'>
       <motion.div
@@ -21,6 +41,7 @@ const Image = ({ setSelectedImg, doc }) => {
           transition={{ delay: 1 }}
         />
       </motion.div>
+      <button onClick={() => removeImage(doc.id)}>DELETE IMAGE</button>
     </div>
   );
 };
