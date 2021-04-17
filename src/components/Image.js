@@ -10,7 +10,6 @@ const Image = ({ setSelectedImg, doc }) => {
 
   // Deletes the image from database
   const removeImage = (imageId) => {
-    console.log("imageId>>>>", imageId);
     collectionRef
       .doc(imageId)
       .delete()
@@ -20,6 +19,18 @@ const Image = ({ setSelectedImg, doc }) => {
       .catch((error) => {
         console.log("Error deleting image", error);
       });
+  };
+
+  const confirmDelete = (imageId) => {
+    const userAction = window.confirm("Are you sure you want to delete image?");
+
+    if (userAction) {
+      console.log("DELETED!!!!");
+      removeImage(imageId);
+    } else {
+      console.log("CANCELLED");
+      return;
+    }
   };
 
   return (
@@ -41,7 +52,7 @@ const Image = ({ setSelectedImg, doc }) => {
           transition={{ delay: 1 }}
         />
       </motion.div>
-      <button onClick={() => removeImage(doc.id)}>DELETE IMAGE</button>
+      <button onClick={() => confirmDelete(doc.id)}>DELETE IMAGE</button>
     </div>
   );
 };
