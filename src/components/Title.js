@@ -1,10 +1,11 @@
 import React from "react";
+import { Typography } from "@material-ui/core";
 
 const Title = () => {
   return (
     <div className='title'>
-      <h1>FireGram</h1>
-      <h2>Sneha Gupta Paintings</h2>
+      <Typography variant='h1'>Sneha's gallery</Typography>
+      <Typography variant='h2'>Sneha Gupta Paintings</Typography>
       <p>
         Learn these drawings/paintings from basic to advanced in{" "}
         <a

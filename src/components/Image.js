@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Button } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import { projectFirestore } from "../firebase/config";
 
@@ -52,7 +54,15 @@ const Image = ({ setSelectedImg, doc }) => {
           transition={{ delay: 1 }}
         />
       </motion.div>
-      <button onClick={() => confirmDelete(doc.id)}>DELETE IMAGE</button>
+      <Button
+        variant='contained'
+        color='secondary'
+        size='small'
+        onClick={() => confirmDelete(doc.id)}
+        startIcon={<DeleteIcon />}
+      >
+        DELETE IMAGE
+      </Button>
     </div>
   );
 };
