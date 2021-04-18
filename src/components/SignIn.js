@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth, signInWithGoogle } from "../firebase/config";
-import { Button } from "@material-ui/core";
+import { Button } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 const SignIn = ({ file, setFile }) => {
   const [userData, setUserData] = useState("");
@@ -13,14 +14,14 @@ const SignIn = ({ file, setFile }) => {
     <>
       {userData ? (
         <Button
-          variant='contained'
-          color='secondary'
+          variant='solid'
+          colorScheme='teal'
           onClick={() => auth.signOut()}
         >
           Sign Out
         </Button>
       ) : (
-        <Button variant='contained' color='primary' onClick={signInWithGoogle}>
+        <Button variant='solid' colorScheme='purple' onClick={signInWithGoogle}>
           SignIn With Google
         </Button>
       )}

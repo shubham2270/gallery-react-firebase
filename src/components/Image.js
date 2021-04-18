@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
-import { Button } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { Button } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 import { projectFirestore } from "../firebase/config";
 
@@ -54,13 +54,13 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
       </motion.div>
       {isAdmin && (
         <Button
-          variant='contained'
-          color='secondary'
-          size='small'
+          variant='solid'
+          colorScheme='red'
+          size='sm'
           onClick={() => confirmDelete(doc.id)}
-          startIcon={<DeleteIcon />}
+          leftIcon={<DeleteIcon />}
         >
-          DELETE IMAGE
+          Delete
         </Button>
       )}
     </div>
