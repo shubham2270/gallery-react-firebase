@@ -5,10 +5,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 import { projectFirestore } from "../firebase/config";
 
-const Image = ({ setSelectedImg, doc }) => {
+const Image = ({ setSelectedImg, doc, isAdmin }) => {
   const collectionRef = projectFirestore.collection("images");
-
-  console.log("docccc", doc);
 
   // Deletes the image from database
   const removeImage = (imageId) => {
@@ -54,15 +52,17 @@ const Image = ({ setSelectedImg, doc }) => {
           transition={{ delay: 1 }}
         />
       </motion.div>
-      <Button
-        variant='contained'
-        color='secondary'
-        size='small'
-        onClick={() => confirmDelete(doc.id)}
-        startIcon={<DeleteIcon />}
-      >
-        DELETE IMAGE
-      </Button>
+      {isAdmin && (
+        <Button
+          variant='contained'
+          color='secondary'
+          size='small'
+          onClick={() => confirmDelete(doc.id)}
+          startIcon={<DeleteIcon />}
+        >
+          DELETE IMAGE
+        </Button>
+      )}
     </div>
   );
 };

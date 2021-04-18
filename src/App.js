@@ -10,7 +10,9 @@ function App() {
   const [selectedImg, setSelectedImg] = useState(null);
   const [userData, setUserData] = useState("");
 
-  const isAdmin = ["shubham2270@gmail.com", "guptasneha.sg53@gmail.com"];
+  const adminEmails = ["shubham2270@gmail.com", "guptasneha.sg53@gmail.com"];
+
+  const isAdmin = adminEmails.includes(userData?.email);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => setUserData(user));
@@ -20,8 +22,8 @@ function App() {
     <div className='App'>
       <Title />
       <SignIn />
-      {isAdmin.includes(userData?.email) && <UploadForm />}
-      <ImageGrid setSelectedImg={setSelectedImg} />
+      {isAdmin && <UploadForm />}
+      <ImageGrid setSelectedImg={setSelectedImg} isAdmin={isAdmin} />
       {selectedImg && (
         <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
       )}

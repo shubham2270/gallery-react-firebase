@@ -7,7 +7,7 @@ import useFirestore from "../hooks/useFirestore";
 
 import Image from "./Image";
 
-const ImageGrid = ({ setSelectedImg }) => {
+const ImageGrid = ({ setSelectedImg, isAdmin }) => {
   const { docs } = useFirestore("images");
 
   // get width & height of image
@@ -27,7 +27,9 @@ const ImageGrid = ({ setSelectedImg }) => {
   return (
     <div className='row'>
       {docs &&
-        docs.map((doc) => <Image doc={doc} setSelectedImg={setSelectedImg} />)}
+        docs.map((doc) => (
+          <Image doc={doc} setSelectedImg={setSelectedImg} isAdmin={isAdmin} />
+        ))}
     </div>
   );
 };
