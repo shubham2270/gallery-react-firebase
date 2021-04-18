@@ -5,7 +5,7 @@ const Title = () => {
   return (
     <div className='title'>
       <Typography variant='h1'>Sneha's gallery</Typography>
-      <Typography variant='h2'>Sneha Gupta Paintings</Typography>
+      <Typography variant='h2'>Sneha Gupta Art & Paintings</Typography>
       <p>
         Learn these drawings/paintings from basic to advanced in{" "}
         <a
