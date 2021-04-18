@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import Title from "./components/Title";
 import UploadForm from "./components/UploadForm";
@@ -9,6 +9,7 @@ import { auth } from "./firebase/config";
 import NavBar from "./components/Navbar";
 
 function App() {
+  const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const [selectedImg, setSelectedImg] = useState(null);
   const [userData, setUserData] = useState("");
 
@@ -23,7 +24,7 @@ function App() {
   return (
     <>
       <NavBar />
-      <Box w='100%' p={10}>
+      <Box w='100%' p={isSmallerThan720 ? 5 : 10}>
         <Title />
         {isAdmin && <UploadForm />}
         <ImageGrid setSelectedImg={setSelectedImg} isAdmin={isAdmin} />

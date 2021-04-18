@@ -25,7 +25,7 @@ const ImageGrid = ({ setSelectedImg, isAdmin }) => {
   // };
 
   return (
-    <Box p={10} pl={isSmallerThan720 ? 5 : 20} pr={isSmallerThan720 ? 5 : 20}>
+    <Box p={10} pl={isSmallerThan720 ? 0 : 20} pr={isSmallerThan720 ? 0 : 20}>
       <div className='row'>
         {docs &&
           docs.map((doc) => (

@@ -7,7 +7,7 @@ const Title = () => {
     <Box className='title'>
       <Center>
         <Heading as='h2' size='xl' color='black'>
-          Sneha Gupta Art & Paintings
+          Sneha Art & Paintings
         </Heading>
       </Center>
       <Center>
