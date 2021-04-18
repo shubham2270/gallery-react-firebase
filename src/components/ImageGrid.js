@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import useFirestore from "../hooks/useFirestore";
-// import { motion } from "framer-motion";
-// import { Grid } from "react-responsive-image-grid";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 
 // import useWindowSize from "../hooks/useWindowSize";
 
 import Image from "./Image";
 
 const ImageGrid = ({ setSelectedImg, isAdmin }) => {
+  const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const { docs } = useFirestore("images");
 
   // get width & height of image
@@ -25,12 +25,18 @@ const ImageGrid = ({ setSelectedImg, isAdmin }) => {
   // };
 
   return (
-    <div className='row'>
-      {docs &&
-        docs.map((doc) => (
-          <Image doc={doc} setSelectedImg={setSelectedImg} isAdmin={isAdmin} />
-        ))}
-    </div>
+    <Box p={10} pl={isSmallerThan720 ? 5 : 20} pr={isSmallerThan720 ? 5 : 20}>
+      <div className='row'>
+        {docs &&
+          docs.map((doc) => (
+            <Image
+              doc={doc}
+              setSelectedImg={setSelectedImg}
+              isAdmin={isAdmin}
+            />
+          ))}
+      </div>
+    </Box>
   );
 };
 
