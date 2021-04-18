@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Box } from "@chakra-ui/react";
 
 import Title from "./components/Title";
 import UploadForm from "./components/UploadForm";
 import ImageGrid from "./components/ImageGrid";
 import Modal from "./components/Modal";
-import SignIn from "./components/SignIn";
 import { auth } from "./firebase/config";
+import NavBar from "./components/Navbar";
 
 function App() {
   const [selectedImg, setSelectedImg] = useState(null);
@@ -20,15 +21,17 @@ function App() {
   }, [setUserData]);
 
   return (
-    <div className='App'>
-      <Title />
-      <SignIn />
-      {isAdmin && <UploadForm />}
-      <ImageGrid setSelectedImg={setSelectedImg} isAdmin={isAdmin} />
-      {selectedImg && (
-        <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
-      )}
-    </div>
+    <>
+      <NavBar />
+      <Box w='100%' p={10}>
+        <Title />
+        {isAdmin && <UploadForm />}
+        <ImageGrid setSelectedImg={setSelectedImg} isAdmin={isAdmin} />
+        {selectedImg && (
+          <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
+        )}
+      </Box>
+    </>
   );
 }
 
