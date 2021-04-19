@@ -7,7 +7,6 @@ import { projectFirestore } from "../firebase/config";
 
 const Image = ({ setSelectedImg, doc, isAdmin }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [isDelete, setIsDelete] = useState(false);
   const collectionRef = projectFirestore.collection("images");
 
   // Deletes the image from database
@@ -17,7 +16,6 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
       .delete()
       .then(() => {
         console.log("Image successfully deleted!");
-        setIsDelete(false);
       })
       .catch((error) => {
         console.log("Error deleting image", error);
@@ -26,10 +24,8 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
 
   const confirmDelete = (imageId) => {
     const userAction = window.confirm("Are you sure you want to delete image?");
-    setIsDelete(true);
     if (userAction) {
       console.log("DELETED!!!!");
-      setIsDelete(true);
       removeImage(imageId);
     } else {
       console.log("CANCELLED");
@@ -53,7 +49,6 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
           style={{ width: "100%", background: "white" }}
           key={doc.id}
           layout
-          whileHover={{ opacity: 1 }}
           onClick={() => setSelectedImg(doc.url)}
         >
           {imageLoaded !== doc.url && <Skeleton height='400px' />}
@@ -75,6 +70,7 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
       </Box>
       <Spacer />
       <Flex pl='5px'>
+        <div>{doc.type || "No type"}</div>
         {isAdmin && (
           <Button
             variant='solid'

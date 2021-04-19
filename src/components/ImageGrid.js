@@ -33,6 +33,7 @@ const ImageGrid = ({ setSelectedImg, isAdmin }) => {
               doc={doc}
               setSelectedImg={setSelectedImg}
               isAdmin={isAdmin}
+              key={doc.id}
             />
           ))}
       </div>
