@@ -1,6 +1,8 @@
 import React from "react";
 import { Select } from "@chakra-ui/react";
 
+import { artTypes } from "../../constants/artTypes";
+
 const SelectDropdown = ({ setArtType }) => {
   const handleDropdownChange = (e) => {
     setArtType(e.target.value);
@@ -11,14 +13,16 @@ const SelectDropdown = ({ setArtType }) => {
       placeholder='Select art type'
       size='sm'
       onChange={(e) => handleDropdownChange(e)}
+      isRequired
     >
-      <option value='Water Color'>Water Color</option>
-      <option value='Oil Pastel Sketch'>Oil Pastel Sketch</option>
-      <option value='Colored Pencil'>Colored Pencil</option>
-      <option value='Pencil Drawings'>Pencil Drawings</option>
-      <option value='Acrylic Paintings'>Acrylic Paintings</option>
-      <option value='Oil Paintings'>Oil Paintings</option>
-      <option value='Others'>Others</option>
+      {artTypes.map((type) => {
+        const { value } = type;
+        return (
+          <option value={value} key={value}>
+            {value}
+          </option>
+        );
+      })}
     </Select>
   );
 };

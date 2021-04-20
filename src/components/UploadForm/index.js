@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Center, Button, Flex, Text, Image } from "@chakra-ui/react";
 
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../ProgressBar";
 import SelectDropdown from "./SelectDropdown";
 import RadioButtons from "./RadioButtons";
 import ChooseFile from "./ChooseFile";
@@ -32,7 +32,6 @@ const UploadForm = () => {
       setArtType(null);
     }
   }, [setFile, setArtType, setSelectedImageUrl, setLevel, imageData]);
-
   return (
     <Center>
       <Box
@@ -46,7 +45,7 @@ const UploadForm = () => {
           <ChooseFile
             setShowImagePreview={setShowImagePreview}
             setSelectedImageUrl={setSelectedImageUrl}
-            setFile={setSelectedImageUrl}
+            setFile={setFile}
           />
           <Center>
             {/* Preview image after selecting */}
@@ -66,7 +65,6 @@ const UploadForm = () => {
                 </Center>
               </Box>
             )}
-            {/* {error && <div className='error'>{error}</div>} */}
             <Flex
               justifyContent='space-between'
               flexDirection='column'

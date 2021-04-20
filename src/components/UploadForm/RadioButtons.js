@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Stack, Radio, RadioGroup } from "@chakra-ui/react";
 
-const RadioButtons = (setLevel, level, artType) => {
+const RadioButtons = ({ setLevel, level, artType }) => {
   return (
     <Box w={169} height={5}>
       {artType && (
@@ -19,3 +19,5 @@ const RadioButtons = (setLevel, level, artType) => {
     </Box>
   );
 };
+
+export default RadioButtons;

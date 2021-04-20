@@ -4,16 +4,18 @@ import imageCompression from "browser-image-compression";
 const ChooseFile = ({ setShowImagePreview, setSelectedImageUrl, setFile }) => {
   // -------------image compress codes-------------------
   async function handleImageSelect(event) {
+    console.log("ssssssss", event);
     setShowImagePreview(true);
     const imageFile = event.target.files[0];
 
-    setSelectedImageUrl(URL.createObjectURL(imageFile));
+    setSelectedImageUrl(URL?.createObjectURL(imageFile));
 
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1024,
       useWebWorker: true,
     };
+
     try {
       const compressedFile = await imageCompression(imageFile, options);
 
@@ -25,7 +27,6 @@ const ChooseFile = ({ setShowImagePreview, setSelectedImageUrl, setFile }) => {
 
   return (
     <label className='selectLabel'>
-      {/* <input type='file' accept='image/*' onChange={handleChange} /> */}
       <input
         type='file'
         accept='image/*'
