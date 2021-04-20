@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import imageCompression from "browser-image-compression";
 import {
   Box,
@@ -8,21 +8,27 @@ import {
   Flex,
   Text,
   Image,
+  Stack,
+  Radio,
+  RadioGroup,
 } from "@chakra-ui/react";
 
 import ProgressBar from "./ProgressBar";
 
 const UploadForm = () => {
   const [file, setFile] = useState(null);
-  const [artType, setArtType] = useState("");
+  const [artType, setArtType] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
   const [showImagePreview, setShowImagePreview] = useState(true);
+  const [level, setLevel] = useState(null);
 
   const handleImageUpload = () => {
     setImageData({
       file,
+      level,
       type: artType,
+      selectedImageUrl,
     });
     setShowImagePreview(false);
   };
@@ -52,6 +58,15 @@ const UploadForm = () => {
     setArtType(e.target.value);
   };
 
+  useEffect(() => {
+    if (!imageData) {
+      setFile(null);
+      setSelectedImageUrl(null);
+      setLevel(null);
+      setArtType(null);
+    }
+  }, [setFile, setArtType, setSelectedImageUrl, setLevel, imageData]);
+
   return (
     <Center>
       <Box
@@ -62,12 +77,13 @@ const UploadForm = () => {
         borderColor='light-grey'
       >
         <form>
-          <label>
+          <label className='selectLabel'>
             {/* <input type='file' accept='image/*' onChange={handleChange} /> */}
             <input
               type='file'
               accept='image/*'
               onChange={(event) => handleImageSelect(event)}
+              className='selectFileInput'
             />
             <span>+</span>
           </label>
@@ -79,7 +95,13 @@ const UploadForm = () => {
             {imageData && file && (
               <Box w={150}>
                 <Center>
-                  <ProgressBar file={file} setFile={setFile} type={artType} />
+                  <ProgressBar
+                    file={file}
+                    setFile={setFile}
+                    setImageData={setImageData}
+                    imageData={imageData}
+                    type={artType}
+                  />
                 </Center>
               </Box>
             )}
@@ -87,7 +109,7 @@ const UploadForm = () => {
             <Flex
               justifyContent='space-between'
               flexDirection='column'
-              height={120}
+              height={130}
             >
               <Text style={{ paddingRight: "5px" }} isTruncated maxW={200}>
                 {file?.name}{" "}
@@ -98,16 +120,33 @@ const UploadForm = () => {
                 size='sm'
                 onChange={(e) => handleDropdownChange(e)}
               >
-                <option value='Painting'>Painting</option>
-                <option value='Pencil Sketch'>Pencil Sketch</option>
+                <option value='Water Color'>Water Color</option>
+                <option value='Oil Pastel Sketch'>Oil Pastel Sketch</option>
+                <option value='Colored Pencil'>Colored Pencil</option>
+                <option value='Pencil Drawings'>Pencil Drawings</option>
+                <option value='Acrylic Paintings'>Acrylic Paintings</option>
+                <option value='Oil Paintings'>Oil Paintings</option>
                 <option value='Others'>Others</option>
               </Select>
-
+              <Box w={169} height={5}>
+                {artType && (
+                  <RadioGroup onChange={setLevel} value={level}>
+                    <Stack direction='row' spacing={5}>
+                      <Radio value='basic' colorScheme='teal'>
+                        Basic
+                      </Radio>
+                      <Radio value='advance' colorScheme='teal'>
+                        Advance
+                      </Radio>
+                    </Stack>
+                  </RadioGroup>
+                )}
+              </Box>
               <Button
                 colorScheme='teal'
                 size='sm'
                 onClick={handleImageUpload}
-                disabled={artType === "" || file === null ? true : false}
+                disabled={!file || !level || !artType ? true : false}
               >
                 Upload
               </Button>

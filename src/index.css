@@ -22,12 +22,12 @@ form {
   /* margin: 30px auto 10px; */
   text-align: center;
 }
-label input {
+.selectLabel .selectFileInput {
   height: 0;
   width: 0;
   opacity: 0;
 }
-label {
+.selectLabel {
   display: block;
   width: 30px;
   height: 30px;
@@ -39,7 +39,7 @@ label {
   font-weight: bold;
   font-size: 24px;
 }
-label:hover {
+.selectLabel:hover {
   background: var(--primary);
   color: white;
 }
