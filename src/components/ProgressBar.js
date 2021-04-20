@@ -3,8 +3,8 @@ import useStorage from "../hooks/useStorage";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 
 const ProgressBar = ({ setImageData, imageData }) => {
-  const { file, type } = imageData;
-  const { progress, url } = useStorage(file, type);
+  const { file, type, level } = imageData;
+  const { progress, url } = useStorage(file, type, level);
 
   useEffect(() => {
     if (url) {
