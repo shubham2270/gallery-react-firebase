@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import * as R from "ramda";
 import useFirestore from "../hooks/useFirestore";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 
@@ -6,29 +7,53 @@ import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import Image from "./Image";
 
-const ImageGrid = ({ setSelectedImg, isAdmin }) => {
+const ImageGrid = ({ setSelectedImg, isAdmin, filterList }) => {
+  const [docImageData, setDocImageData] = useState([]);
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const { docs } = useFirestore("images");
 
-  // get width & height of image
-  // const dimensions = (imgSrc: string) => {
-  //   // Create new offscreen image to test
-  //   const theImage = new Image();
-  //   theImage.src = imgSrc;
-  //   // Get accurate measurements from that.
-  //   const imageWidth = theImage.width;
-  //   const imageHeight = theImage.height;
-  //   // Create an object to save the image width and height
-  //   const imgDimensions = { width: imageWidth, height: imageHeight };
-  //   // Return the result
-  //   return imgDimensions;
-  // };
+  // Check if filter is applied or not
+  const isAdvance = filterList[0].isChecked;
+  const isBasics = filterList[1].isChecked;
+
+  // Filters out object from array that contains provided value;
+  const filterImageData = (val) =>
+    R.filter(R.compose(R.any(R.contains(val)), R.values));
+
+  useEffect(() => {
+    const filterByAdvance = filterImageData("advance")(docImageData);
+    const filterByBasic = filterImageData("basic")(docImageData);
+
+    setDocImageData(
+      isAdvance && !isBasics
+        ? filterByAdvance
+        : isBasics && !isAdvance
+        ? filterByBasic
+        : docs
+    );
+  }, [
+    filterList,
+    // filterByAdvance,
+    docs,
+    // filterByBasic,
+    isBasics,
+    isAdvance,
+    setDocImageData,
+    docImageData,
+  ]);
+
+  // useEffect(() => {
+  //   setDocImageData(docs);
+  // }, [docs, setDocImageData]);
+
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>", docImageData);
 
   return (
     <Box p={10} pl={isSmallerThan720 ? 0 : 20} pr={isSmallerThan720 ? 0 : 20}>
+      {console.log("docccccc", docs)}
       <div className='row'>
         {docs &&
-          docs.map((doc) => (
+          docImageData?.map((doc) => (
             <Image
               doc={doc}
               setSelectedImg={setSelectedImg}

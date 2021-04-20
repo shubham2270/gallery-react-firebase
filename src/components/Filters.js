@@ -9,23 +9,13 @@ import {
   Center,
   Wrap,
   WrapItem,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import { artTypes } from "../constants/artTypes";
 
-const Filters = () => {
-  const [filterList, setFilterList] = useState([
-    {
-      value: "Basic",
-      isChecked: false,
-    },
-    {
-      value: "Advance",
-      isChecked: false,
-    },
-  ]);
-  const [typeFilter, setTypeFilter] = useState([]);
-
+const Filters = ({ filterList, setFilterList, typeFilter, setTypeFilter }) => {
+  const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   useEffect(() => {
     setTypeFilter(artTypes);
   }, [setTypeFilter]);
@@ -58,7 +48,11 @@ const Filters = () => {
 
   return (
     <>
-      <Flex w={750} justifyContent='space-between'>
+      <Flex
+        w={isSmallerThan720 ? 0 : 750}
+        justifyContent='space-between'
+        direction={isSmallerThan720 ? "column" : "row"}
+      >
         <Box>
           <Heading pb={2} as='h6' size='xs' color='teal'>
             Filter by difficulty level:
@@ -84,7 +78,11 @@ const Filters = () => {
           <Heading pb={2} as='h6' size='xs' color='teal'>
             Filter by art type:
           </Heading>
-          <Stack spacing={1} direction='row' width='500px' height='100px'>
+          <Stack
+            spacing={1}
+            direction={isSmallerThan720 ? "column" : "row"}
+            width={isSmallerThan720 ? "300px" : "500px"}
+          >
             <Wrap>
               {typeFilter.map((type) => {
                 const { value } = type;

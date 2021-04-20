@@ -13,6 +13,17 @@ function App() {
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const [selectedImg, setSelectedImg] = useState(null);
   const [userData, setUserData] = useState("");
+  const [filterList, setFilterList] = useState([
+    {
+      value: "Advance",
+      isChecked: false,
+    },
+    {
+      value: "Basic",
+      isChecked: false,
+    },
+  ]);
+  const [typeFilter, setTypeFilter] = useState([]);
 
   const adminEmails = ["shubham2270@gmail.com", "guptasneha.sg53@gmail.com"];
 
@@ -28,10 +39,19 @@ function App() {
       <Box w='100%' p={isSmallerThan720 ? 5 : 10}>
         <Title />
         <Divider mb={5} pt={5} />
-        <Filters />
+        <Filters
+          filterList={filterList}
+          setFilterList={setFilterList}
+          typeFilter={typeFilter}
+          setTypeFilter={setTypeFilter}
+        />
         {isAdmin && <UploadForm />}
         <Divider pt={5} />
-        <ImageGrid setSelectedImg={setSelectedImg} isAdmin={isAdmin} />
+        <ImageGrid
+          setSelectedImg={setSelectedImg}
+          isAdmin={isAdmin}
+          filterList={filterList}
+        />
         {selectedImg && (
           <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
         )}
