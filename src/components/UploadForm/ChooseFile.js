@@ -4,7 +4,6 @@ import imageCompression from "browser-image-compression";
 const ChooseFile = ({ setShowImagePreview, setSelectedImageUrl, setFile }) => {
   // -------------image compress codes-------------------
   async function handleImageSelect(event) {
-    console.log("ssssssss", event);
     setShowImagePreview(true);
     const imageFile = event.target.files[0];
 

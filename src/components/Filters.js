@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import {
   Checkbox,
   Stack,
@@ -14,24 +14,30 @@ import {
 
 import { artTypes } from "../constants/artTypes";
 
-const Filters = ({ filterList, setFilterList, typeFilter, setTypeFilter }) => {
+const Filters = ({
+  levelFilter,
+  typeFilter,
+  setTypeFilter,
+  setLevelFilter,
+}) => {
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   useEffect(() => {
     setTypeFilter(artTypes);
   }, [setTypeFilter]);
 
   // Handle difficulty level checkbox filter
-  const handleCheckbox = useCallback(
-    (event) => {
-      const { value, checked } = event.target;
-      let filters = filterList;
-      filters.forEach((filter) => {
-        if (filter.value === value) filter.isChecked = checked;
-      });
-      setFilterList(filters);
-    },
-    [filterList, setFilterList]
-  );
+  const handleCheckbox = (event) => {
+    const { value, checked } = event.target;
+    let filters = levelFilter;
+    const newFilters = filters.map((filter) => {
+      if (filter.value === value) {
+        return { ...filter, isChecked: checked };
+      } else {
+        return filter;
+      }
+    });
+    setLevelFilter(newFilters);
+  };
 
   //  handle art type checkbox
   const handleTypeCheckbox = useCallback(
@@ -58,7 +64,7 @@ const Filters = ({ filterList, setFilterList, typeFilter, setTypeFilter }) => {
             Filter by difficulty level:
           </Heading>
           <Stack spacing={6} direction='row'>
-            {filterList.map((filter) => {
+            {levelFilter.map((filter) => {
               return (
                 <Checkbox
                   onChange={(event) => handleCheckbox(event)}

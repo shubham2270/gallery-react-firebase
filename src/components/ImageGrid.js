@@ -7,22 +7,22 @@ import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import Image from "./Image";
 
-const ImageGrid = ({ setSelectedImg, isAdmin, filterList }) => {
+const ImageGrid = ({ setSelectedImg, isAdmin, filterList, levelFilter }) => {
   const [docImageData, setDocImageData] = useState([]);
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const { docs } = useFirestore("images");
 
   // Check if filter is applied or not
-  const isAdvance = filterList[0].isChecked;
-  const isBasics = filterList[1].isChecked;
+  const isAdvance = levelFilter[0].isChecked;
+  const isBasics = levelFilter[1].isChecked;
 
   // Filters out object from array that contains provided value;
   const filterImageData = (val) =>
     R.filter(R.compose(R.any(R.contains(val)), R.values));
 
   useEffect(() => {
-    const filterByAdvance = filterImageData("advance")(docImageData);
-    const filterByBasic = filterImageData("basic")(docImageData);
+    const filterByAdvance = filterImageData("advance")(docs);
+    const filterByBasic = filterImageData("basic")(docs);
 
     setDocImageData(
       isAdvance && !isBasics
@@ -31,26 +31,14 @@ const ImageGrid = ({ setSelectedImg, isAdmin, filterList }) => {
         ? filterByBasic
         : docs
     );
-  }, [
-    filterList,
-    // filterByAdvance,
-    docs,
-    // filterByBasic,
-    isBasics,
-    isAdvance,
-    setDocImageData,
-    docImageData,
-  ]);
+  }, [docs, isBasics, isAdvance]);
 
-  // useEffect(() => {
-  //   setDocImageData(docs);
-  // }, [docs, setDocImageData]);
-
-  console.log(">>>>>>>>>>>>>>>>>>>>>>>", docImageData);
+  useEffect(() => {
+    setDocImageData(docs);
+  }, [docs, setDocImageData]);
 
   return (
     <Box p={10} pl={isSmallerThan720 ? 0 : 20} pr={isSmallerThan720 ? 0 : 20}>
-      {console.log("docccccc", docs)}
       <div className='row'>
         {docs &&
           docImageData?.map((doc) => (

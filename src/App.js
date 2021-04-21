@@ -13,7 +13,7 @@ function App() {
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const [selectedImg, setSelectedImg] = useState(null);
   const [userData, setUserData] = useState("");
-  const [filterList, setFilterList] = useState([
+  const [levelFilter, setLevelFilter] = useState([
     {
       value: "Advance",
       isChecked: false,
@@ -40,17 +40,17 @@ function App() {
         <Title />
         <Divider mb={5} pt={5} />
         <Filters
-          filterList={filterList}
-          setFilterList={setFilterList}
+          levelFilter={levelFilter}
           typeFilter={typeFilter}
           setTypeFilter={setTypeFilter}
+          setLevelFilter={setLevelFilter}
         />
         {isAdmin && <UploadForm />}
         <Divider pt={5} />
         <ImageGrid
           setSelectedImg={setSelectedImg}
           isAdmin={isAdmin}
-          filterList={filterList}
+          levelFilter={levelFilter}
         />
         {selectedImg && (
           <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
