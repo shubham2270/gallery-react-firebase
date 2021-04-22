@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Box, useMediaQuery, Divider } from "@chakra-ui/react";
+import { Box, useMediaQuery, Divider, Flex } from "@chakra-ui/react";
+import "@lottiefiles/lottie-player";
 
 import Title from "./components/Title";
 import UploadForm from "./components/UploadForm";
@@ -40,15 +41,24 @@ function App() {
       <Box w='100%' p={isSmallerThan720 ? 5 : 10}>
         <Title />
         <Divider mb={5} pt={5} />
-        <Filters
-          levelFilter={levelFilter}
-          typeFilter={typeFilter}
-          setTypeFilter={setTypeFilter}
-          setLevelFilter={setLevelFilter}
-          filters={filters}
-          setFilters={setFilters}
-        />
-        {isAdmin && <UploadForm />}
+        <Flex direction={isSmallerThan720 ? "column" : "row"}>
+          <Filters
+            levelFilter={levelFilter}
+            typeFilter={typeFilter}
+            setTypeFilter={setTypeFilter}
+            setLevelFilter={setLevelFilter}
+            filters={filters}
+            setFilters={setFilters}
+          />
+          {isAdmin && <UploadForm />}
+          <lottie-player
+            autoplay
+            loop
+            mode='normal'
+            src='https://assets5.lottiefiles.com/packages/lf20_lcmz7vzg.json'
+            style={{ width: "320px" }}
+          ></lottie-player>
+        </Flex>
         <Divider pt={5} />
         <ImageGrid
           setSelectedImg={setSelectedImg}
