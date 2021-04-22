@@ -9,6 +9,7 @@ import { auth } from "./firebase/config";
 import NavBar from "./components/Navbar";
 import Filters from "./components/Filters";
 import useFirestore from "./hooks/useFirestore";
+import { artTypes } from "./constants/artTypes";
 
 function App() {
   const { docs } = useFirestore("images");
@@ -32,6 +33,10 @@ function App() {
   const isAdmin = adminEmails.includes(userData?.email);
 
   useEffect(() => {
+    setTypeFilter(artTypes);
+  }, [setTypeFilter]);
+
+  useEffect(() => {
     auth.onAuthStateChanged((user) => setUserData(user));
   }, [setUserData]);
 
@@ -53,6 +58,7 @@ function App() {
           setSelectedImg={setSelectedImg}
           isAdmin={isAdmin}
           levelFilter={levelFilter}
+          typeFilter={typeFilter}
           docs={docs}
         />
         {selectedImg && (

@@ -44,10 +44,14 @@ const Filters = ({
     (event) => {
       const { value, checked } = event.target;
       let filters = typeFilter;
-      filters.forEach((filter) => {
-        if (filter.value === value) filter.isChecked = checked;
+      const newFilters = filters.map((filter) => {
+        if (filter.value === value) {
+          return { ...filter, isChecked: checked };
+        } else {
+          return filter;
+        }
       });
-      setTypeFilter(filters);
+      setTypeFilter(newFilters);
     },
     [typeFilter, setTypeFilter]
   );

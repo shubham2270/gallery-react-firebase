@@ -7,35 +7,26 @@ import { Box, useMediaQuery } from "@chakra-ui/react";
 
 import Image from "./Image";
 
-const ImageGrid = ({ setSelectedImg, isAdmin, filterList, levelFilter }) => {
+const ImageGrid = ({
+  setSelectedImg,
+  isAdmin,
+  filterList,
+  levelFilter,
+  typeFilter,
+}) => {
   const [docImageData, setDocImageData] = useState([]);
   const [filters, setFilters] = useState([]);
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const { docs } = useFirestore("images");
 
-  // Check if filter is applied or not
-  const isAdvance = levelFilter[0].isChecked;
-  const isBasics = levelFilter[1].isChecked;
-
   // Filters out object from array that contains provided value;
   const filterImageData = (val) =>
     R.filter(R.compose(R.any(R.contains(val)), R.values));
 
-  // Store applied filter in filters array & remove if not applied
+  // Store  applied filter in filters array & remove if not applied
   useEffect(() => {
-    // const filterByAdvance = filterImageData("advance")(docs);
-    // const filterByBasic = filterImageData("basic")(docs);
-    // setDocImageData(
-    //   isAdvance && !isBasics
-    //     ? filterByAdvance
-    //     : isBasics && !isAdvance
-    //     ? filterByBasic
-    //     : docs
-    // );
-
-    // --------------------------
-
-    levelFilter.map((levelItem) => {
+    const allFilters = [...levelFilter, ...typeFilter];
+    allFilters.map((levelItem) => {
       // Push checked item to filters array
       if (levelItem.isChecked) {
         let applied = [...filters];
@@ -56,7 +47,7 @@ const ImageGrid = ({ setSelectedImg, isAdmin, filterList, levelFilter }) => {
         }
       }
     });
-  }, [levelFilter]);
+  }, [levelFilter, typeFilter]);
 
   // Update docs based on filter applied
   useEffect(() => {
@@ -64,7 +55,7 @@ const ImageGrid = ({ setSelectedImg, isAdmin, filterList, levelFilter }) => {
     filters.map((filterItem) => {
       filteredDocs = [...filteredDocs, ...filterImageData(filterItem)(docs)];
     });
-    setDocImageData(filteredDocs);
+    setDocImageData(R.uniq(filteredDocs));
 
     // display all images if no filter applied
     if (filteredDocs.length < 1) {
