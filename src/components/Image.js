@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Button, Skeleton, Box, Flex, Spacer } from "@chakra-ui/react";
+import {
+  Button,
+  Skeleton,
+  Box,
+  Flex,
+  Spacer,
+  Tag,
+  TagLabel,
+} from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 import { projectFirestore } from "../firebase/config";
@@ -35,14 +43,15 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
 
   return (
     <Flex
-      borderWidth='1px'
+      borderWidth='3px'
       borderRadius='lg'
+      borderColor='b'
       p='6px'
       maxH='full'
       className='column'
       m='5px'
       flexDirection='column'
-      bg='#F8F8F8'
+      bg='dark'
     >
       <Box>
         <div
@@ -69,14 +78,33 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
         </div>
       </Box>
       <Spacer />
-      <Flex pl='5px'>
-        <div>{doc.type || "No type"}</div>
+      <Flex
+        pl='5px'
+        bg='y'
+        p='5px'
+        justifyContent='space-between'
+        alignItems='center'
+      >
+        <Tag
+          size='sm'
+          borderRadius='full'
+          colorScheme='teal'
+          variant='subtle'
+          height='70%'
+          pl={3}
+          pr={3}
+          border='2px solid'
+          borderColor='g'
+        >
+          <TagLabel fontWeight='bold'>{doc.type}</TagLabel>
+        </Tag>
+        {/* <div>{doc.type || "No type"}</div> */}
         {isAdmin && (
           <Button
             variant='solid'
-            colorScheme='red'
+            background='r'
+            color='white'
             size='sm'
-            mt='10px'
             onClick={() => confirmDelete(doc.id)}
             leftIcon={<DeleteIcon />}
           >

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { auth, signInWithGoogle } from "../firebase/config";
 import { Button } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
 
 const SignIn = ({ file, setFile }) => {
   const [userData, setUserData] = useState("");
@@ -15,13 +14,14 @@ const SignIn = ({ file, setFile }) => {
       {userData ? (
         <Button
           variant='solid'
-          colorScheme='teal'
+          background='r'
+          color='white'
           onClick={() => auth.signOut()}
         >
           Sign Out
         </Button>
       ) : (
-        <Button variant='solid' colorScheme='purple' onClick={signInWithGoogle}>
+        <Button background='g' color='white' onClick={signInWithGoogle}>
           SignIn With Google
         </Button>
       )}

@@ -80,7 +80,10 @@ const UploadForm = () => {
                 artType={artType}
               />
               <Button
-                colorScheme='teal'
+                colorScheme='green'
+                _hover={{ background: "dark" }}
+                _disabled={{ opacity: "0.3" }}
+                background='g'
                 size='sm'
                 onClick={handleImageUpload}
                 disabled={!file || !level || !artType ? true : false}

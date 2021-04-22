@@ -76,7 +76,7 @@ const Filters = ({
         direction={isSmallerThan720 ? "column" : "row"}
       >
         <Box>
-          <Heading pb={2} as='h6' size='xs' color='teal' wordWrap='normal'>
+          <Heading pb={2} as='h6' size='xs' color='b'>
             Filter by difficulty level:
           </Heading>
           <Stack spacing={6} direction='row'>
@@ -98,7 +98,7 @@ const Filters = ({
           <Divider orientation={isSmallerThan720 ? "horizontal" : "vertical"} />
         </Center>
         <Box>
-          <Heading pb={2} as='h6' size='xs' color='teal'>
+          <Heading pb={2} as='h6' size='xs' color='b'>
             Filter by art type:
           </Heading>
           <Stack
