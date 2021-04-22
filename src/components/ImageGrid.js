@@ -67,7 +67,6 @@ const ImageGrid = ({
 
   return (
     <Box p={10} pl={isSmallerThan720 ? 0 : 20} pr={isSmallerThan720 ? 0 : 20}>
-      {console.log("FILTERS>>>>>", filters)}
       <div className='row'>
         {docs &&
           docImageData?.map((doc) => (

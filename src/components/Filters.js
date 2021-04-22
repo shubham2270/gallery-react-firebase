@@ -70,7 +70,6 @@ const Filters = ({
 
   return (
     <>
-      {console.log("typefilter---", typeFilter)}
       <Flex
         w={isSmallerThan720 ? 200 : 820}
         justifyContent='space-between'
@@ -128,7 +127,6 @@ const Filters = ({
             </Wrap>
           </Stack>
         </Box>
-        {console.log(">>>>", levelFilter, typeFilter)}
         <Box pt={isSmallerThan720 ? 5 : 0} pb={5} w={94} h={24}>
           {filters.length > 0 && (
             <Button
