@@ -10,15 +10,20 @@ import {
   Wrap,
   WrapItem,
   useMediaQuery,
+  Button,
 } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 
 import { artTypes } from "../constants/artTypes";
+import { levelTypes } from "../constants/levelTypes";
 
 const Filters = ({
   levelFilter,
   typeFilter,
   setTypeFilter,
   setLevelFilter,
+  setFilters,
+  filters,
 }) => {
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   useEffect(() => {
@@ -56,15 +61,23 @@ const Filters = ({
     [typeFilter, setTypeFilter]
   );
 
+  // Reset filters on clicking reset
+  const resetFilters = () => {
+    setLevelFilter(levelTypes);
+    setTypeFilter(artTypes);
+    setFilters([]);
+  };
+
   return (
     <>
+      {console.log("typefilter---", typeFilter)}
       <Flex
-        w={isSmallerThan720 ? 0 : 750}
+        w={isSmallerThan720 ? 200 : 820}
         justifyContent='space-between'
         direction={isSmallerThan720 ? "column" : "row"}
       >
         <Box>
-          <Heading pb={2} as='h6' size='xs' color='teal'>
+          <Heading pb={2} as='h6' size='xs' color='teal' wordWrap='normal'>
             Filter by difficulty level:
           </Heading>
           <Stack spacing={6} direction='row'>
@@ -74,6 +87,7 @@ const Filters = ({
                   onChange={(event) => handleCheckbox(event)}
                   value={filter.value}
                   key={filter.value}
+                  isChecked={filter.isChecked}
                 >
                   {filter.value}
                 </Checkbox>
@@ -82,7 +96,7 @@ const Filters = ({
           </Stack>
         </Box>
         <Center height='50px'>
-          <Divider orientation='vertical' />
+          <Divider orientation={isSmallerThan720 ? "horizontal" : "vertical"} />
         </Center>
         <Box>
           <Heading pb={2} as='h6' size='xs' color='teal'>
@@ -103,6 +117,7 @@ const Filters = ({
                         width={150}
                         onChange={(event) => handleTypeCheckbox(event)}
                         value={value}
+                        isChecked={type.isChecked}
                       >
                         {value}
                       </Checkbox>
@@ -112,6 +127,19 @@ const Filters = ({
               })}
             </Wrap>
           </Stack>
+        </Box>
+        {console.log(">>>>", levelFilter, typeFilter)}
+        <Box pt={isSmallerThan720 ? 5 : 0} pb={5} w={94} h={24}>
+          {filters.length > 0 && (
+            <Button
+              onClick={resetFilters}
+              size='xs'
+              colorScheme='red'
+              leftIcon={<CloseIcon w={2} h={2} />}
+            >
+              Clear Filter
+            </Button>
+          )}
         </Box>
       </Flex>
     </>

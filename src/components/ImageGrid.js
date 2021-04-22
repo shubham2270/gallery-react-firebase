@@ -13,9 +13,11 @@ const ImageGrid = ({
   filterList,
   levelFilter,
   typeFilter,
+  filters,
+  setFilters,
 }) => {
   const [docImageData, setDocImageData] = useState([]);
-  const [filters, setFilters] = useState([]);
+
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const { docs } = useFirestore("images");
 

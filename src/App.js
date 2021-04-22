@@ -10,23 +10,16 @@ import NavBar from "./components/Navbar";
 import Filters from "./components/Filters";
 import useFirestore from "./hooks/useFirestore";
 import { artTypes } from "./constants/artTypes";
+import { levelTypes } from "./constants/levelTypes";
 
 function App() {
   const { docs } = useFirestore("images");
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const [selectedImg, setSelectedImg] = useState(null);
   const [userData, setUserData] = useState("");
-  const [levelFilter, setLevelFilter] = useState([
-    {
-      value: "advance",
-      isChecked: false,
-    },
-    {
-      value: "basic",
-      isChecked: false,
-    },
-  ]);
+  const [levelFilter, setLevelFilter] = useState([]);
   const [typeFilter, setTypeFilter] = useState([]);
+  const [filters, setFilters] = useState([]);
 
   const adminEmails = ["shubham2270@gmail.com", "guptasneha.sg53@gmail.com"];
 
@@ -34,7 +27,8 @@ function App() {
 
   useEffect(() => {
     setTypeFilter(artTypes);
-  }, [setTypeFilter]);
+    setLevelFilter(levelTypes);
+  }, [setTypeFilter, setLevelFilter]);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => setUserData(user));
@@ -51,6 +45,8 @@ function App() {
           typeFilter={typeFilter}
           setTypeFilter={setTypeFilter}
           setLevelFilter={setLevelFilter}
+          filters={filters}
+          setFilters={setFilters}
         />
         {isAdmin && <UploadForm />}
         <Divider pt={5} />
@@ -60,6 +56,8 @@ function App() {
           levelFilter={levelFilter}
           typeFilter={typeFilter}
           docs={docs}
+          filters={filters}
+          setFilters={setFilters}
         />
         {selectedImg && (
           <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
