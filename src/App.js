@@ -8,18 +8,20 @@ import Modal from "./components/Modal";
 import { auth } from "./firebase/config";
 import NavBar from "./components/Navbar";
 import Filters from "./components/Filters";
+import useFirestore from "./hooks/useFirestore";
 
 function App() {
+  const { docs } = useFirestore("images");
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const [selectedImg, setSelectedImg] = useState(null);
   const [userData, setUserData] = useState("");
   const [levelFilter, setLevelFilter] = useState([
     {
-      value: "Advance",
+      value: "advance",
       isChecked: false,
     },
     {
-      value: "Basic",
+      value: "basic",
       isChecked: false,
     },
   ]);
@@ -51,6 +53,7 @@ function App() {
           setSelectedImg={setSelectedImg}
           isAdmin={isAdmin}
           levelFilter={levelFilter}
+          docs={docs}
         />
         {selectedImg && (
           <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />

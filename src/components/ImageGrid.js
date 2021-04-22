@@ -9,6 +9,7 @@ import Image from "./Image";
 
 const ImageGrid = ({ setSelectedImg, isAdmin, filterList, levelFilter }) => {
   const [docImageData, setDocImageData] = useState([]);
+  const [filters, setFilters] = useState([]);
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const { docs } = useFirestore("images");
 
@@ -21,17 +22,40 @@ const ImageGrid = ({ setSelectedImg, isAdmin, filterList, levelFilter }) => {
     R.filter(R.compose(R.any(R.contains(val)), R.values));
 
   useEffect(() => {
-    const filterByAdvance = filterImageData("advance")(docs);
-    const filterByBasic = filterImageData("basic")(docs);
+    // const filterByAdvance = filterImageData("advance")(docs);
+    // const filterByBasic = filterImageData("basic")(docs);
+    // setDocImageData(
+    //   isAdvance && !isBasics
+    //     ? filterByAdvance
+    //     : isBasics && !isAdvance
+    //     ? filterByBasic
+    //     : docs
+    // );
 
-    setDocImageData(
-      isAdvance && !isBasics
-        ? filterByAdvance
-        : isBasics && !isAdvance
-        ? filterByBasic
-        : docs
-    );
-  }, [docs, isBasics, isAdvance]);
+    // --------------------------
+
+    levelFilter.map((levelItem) => {
+      // Push checked item to filters array
+      if (levelItem.isChecked) {
+        let applied = [...filters];
+        // only push to array if item is not there
+        if (!R.includes(levelItem.value, applied)) {
+          applied.push(levelItem.value);
+          setFilters([...applied]);
+        }
+      } else {
+        // if not checked
+        let applied = [...filters];
+        // if filters is applied
+        if (R.contains(levelItem.value, applied)) {
+          let removedUnChecked = R.filter((item) => {
+            return levelItem.value !== item;
+          }, applied);
+          setFilters([...removedUnChecked]);
+        }
+      }
+    });
+  }, [levelFilter]);
 
   useEffect(() => {
     setDocImageData(docs);
@@ -39,6 +63,7 @@ const ImageGrid = ({ setSelectedImg, isAdmin, filterList, levelFilter }) => {
 
   return (
     <Box p={10} pl={isSmallerThan720 ? 0 : 20} pr={isSmallerThan720 ? 0 : 20}>
+      {console.log("FILTERS>>>>>", filters)}
       <div className='row'>
         {docs &&
           docImageData?.map((doc) => (
