@@ -21,6 +21,7 @@ const ImageGrid = ({ setSelectedImg, isAdmin, filterList, levelFilter }) => {
   const filterImageData = (val) =>
     R.filter(R.compose(R.any(R.contains(val)), R.values));
 
+  // Store applied filter in filters array & remove if not applied
   useEffect(() => {
     // const filterByAdvance = filterImageData("advance")(docs);
     // const filterByBasic = filterImageData("basic")(docs);
@@ -57,9 +58,19 @@ const ImageGrid = ({ setSelectedImg, isAdmin, filterList, levelFilter }) => {
     });
   }, [levelFilter]);
 
+  // Update docs based on filter applied
   useEffect(() => {
-    setDocImageData(docs);
-  }, [docs, setDocImageData]);
+    let filteredDocs = [];
+    filters.map((filterItem) => {
+      filteredDocs = [...filteredDocs, ...filterImageData(filterItem)(docs)];
+    });
+    setDocImageData(filteredDocs);
+
+    // display all images if no filter applied
+    if (filteredDocs.length < 1) {
+      setDocImageData(docs);
+    }
+  }, [docs, filters]);
 
   return (
     <Box p={10} pl={isSmallerThan720 ? 0 : 20} pr={isSmallerThan720 ? 0 : 20}>
