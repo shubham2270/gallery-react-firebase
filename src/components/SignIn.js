@@ -14,14 +14,20 @@ const SignIn = ({ file, setFile }) => {
       {userData ? (
         <Button
           variant='solid'
-          background='r'
+          background='r.light'
+          _hover={{ bg: "r.dark" }}
           color='white'
           onClick={() => auth.signOut()}
         >
           Sign Out
         </Button>
       ) : (
-        <Button background='g' color='white' onClick={signInWithGoogle}>
+        <Button
+          background='g.light'
+          color='white'
+          _hover={{ bg: "g.dark" }}
+          onClick={signInWithGoogle}
+        >
           SignIn With Google
         </Button>
       )}

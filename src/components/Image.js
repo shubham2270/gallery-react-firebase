@@ -45,7 +45,7 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
     <Flex
       borderWidth='3px'
       borderRadius='lg'
-      borderColor='b'
+      borderColor='b.light'
       p='6px'
       maxH='full'
       className='column'
@@ -80,7 +80,7 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
       <Spacer />
       <Flex
         pl='5px'
-        bg='y'
+        bg='y.light'
         p='5px'
         justifyContent='space-between'
         alignItems='center'
@@ -94,7 +94,7 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
           pl={3}
           pr={3}
           border='2px solid'
-          borderColor='g'
+          borderColor='g.light'
         >
           <TagLabel fontWeight='bold'>{doc.type}</TagLabel>
         </Tag>
@@ -102,7 +102,8 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
         {isAdmin && (
           <Button
             variant='solid'
-            background='r'
+            background='r.light'
+            _hover={{ bg: "r.dark" }}
             color='white'
             size='sm'
             onClick={() => confirmDelete(doc.id)}

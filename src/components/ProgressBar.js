@@ -2,15 +2,16 @@ import React, { useEffect } from "react";
 import useStorage from "../hooks/useStorage";
 import { CircularProgress, CircularProgressLabel } from "@chakra-ui/react";
 
-const ProgressBar = ({ setImageData, imageData }) => {
+const ProgressBar = ({ setImageData, imageData, closeUploadModal }) => {
   const { file, type, level } = imageData;
-  const { progress, url } = useStorage(file, type, level);
+  const { progress, url, uploadCompleted } = useStorage(file, type, level);
 
   useEffect(() => {
-    if (url) {
+    if (uploadCompleted) {
+      closeUploadModal();
       setImageData(null);
     }
-  }, [url, setImageData]);
+  }, [uploadCompleted, setImageData]);
 
   return (
     <>

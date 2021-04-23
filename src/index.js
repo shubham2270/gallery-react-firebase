@@ -6,10 +6,23 @@ import "./index.css";
 import App from "./App";
 
 const colors = {
-  g: "#06D6A0",
-  y: "#FFD166",
-  r: "#EF476F",
-  b: "#118AB2",
+  g: {
+    light: "#06D6A0",
+    dark: "#06c493",
+  },
+  y: {
+    light: "#FFD166",
+    dark: "#ebc05e",
+  },
+  r: {
+    light: "#EF476F",
+    dark: "#d64064",
+  },
+  b: {
+    light: "#118AB2",
+    dark: "#0f7799",
+  },
+
   dark: "#073B4C",
 };
 

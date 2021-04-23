@@ -1,5 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Box, useMediaQuery, Divider, Flex } from "@chakra-ui/react";
+import {
+  Modal as ChakaraModal,
+  Box,
+  useMediaQuery,
+  Divider,
+  Flex,
+  Button,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react";
 import "@lottiefiles/lottie-player";
 
 import Title from "./components/Title";
@@ -18,9 +32,10 @@ function App() {
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
   const [selectedImg, setSelectedImg] = useState(null);
   const [userData, setUserData] = useState("");
-  const [levelFilter, setLevelFilter] = useState([]);
-  const [typeFilter, setTypeFilter] = useState([]);
-  const [filters, setFilters] = useState([]);
+  const [levelFilter, setLevelFilter] = useState([]); // Manage difficulty level filter
+  const [typeFilter, setTypeFilter] = useState([]); // Manage art type filter
+  const [filters, setFilters] = useState([]); // stores all applied filters
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const adminEmails = ["shubham2270@gmail.com", "guptasneha.sg53@gmail.com"];
 
@@ -37,6 +52,22 @@ function App() {
 
   return (
     <>
+      <ChakaraModal
+        isCentered
+        onClose={onClose}
+        isOpen={isOpen}
+        motionPreset='slideInBottom'
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Upload Art</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {isAdmin && <UploadForm closeUploadModal={onClose} />}
+          </ModalBody>
+          <ModalFooter />
+        </ModalContent>
+      </ChakaraModal>
       <NavBar />
       <Box w='100%' p={isSmallerThan720 ? 5 : 10}>
         <Title />
@@ -50,7 +81,14 @@ function App() {
             filters={filters}
             setFilters={setFilters}
           />
-          {isAdmin && <UploadForm />}
+          <Button
+            background='y.light'
+            _hover={{ bg: "y.dark" }}
+            onClick={onOpen}
+          >
+            Upload New Art
+          </Button>
+
           <lottie-player
             autoplay
             loop

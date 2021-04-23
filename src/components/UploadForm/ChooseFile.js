@@ -1,26 +1,46 @@
 import React from "react";
 import imageCompression from "browser-image-compression";
 
-const ChooseFile = ({ setShowImagePreview, setSelectedImageUrl, setFile }) => {
+const ChooseFile = ({
+  setShowImagePreview,
+  selectedImageUrl,
+  setSelectedImageUrl,
+  setFile,
+  file,
+}) => {
   // -------------image compress codes-------------------
   async function handleImageSelect(event) {
     setShowImagePreview(true);
-    const imageFile = event.target.files[0];
+    // const imageFile = event.target.files[0];
 
-    setSelectedImageUrl(URL?.createObjectURL(imageFile));
+    const totalFilesLength = event.target.files.length;
 
-    const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 1024,
-      useWebWorker: true,
-    };
+    let allImageURL = [];
+    let imageFiles = [...file];
 
-    try {
-      const compressedFile = await imageCompression(imageFile, options);
+    // loop over multiple selected files
+    if (event.target.files) {
+      for (let i = 0; i < totalFilesLength; i++) {
+        const imageFile = event.target.files[i];
+        allImageURL = [...allImageURL, URL?.createObjectURL(imageFile)];
+        setSelectedImageUrl(allImageURL);
 
-      await setFile(compressedFile); // write your own logic
-    } catch (error) {
-      console.log(error);
+        event.persist();
+
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1024,
+          useWebWorker: true,
+        };
+
+        try {
+          const compressedFile = await imageCompression(imageFile, options);
+          imageFiles = [...imageFiles, compressedFile];
+          await setFile(imageFiles); // write your own logic
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
   }
 
@@ -29,6 +49,7 @@ const ChooseFile = ({ setShowImagePreview, setSelectedImageUrl, setFile }) => {
       <input
         type='file'
         accept='image/*'
+        multiple
         onChange={(event) => handleImageSelect(event)}
         className='selectFileInput'
       />

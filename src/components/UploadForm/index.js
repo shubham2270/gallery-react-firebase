@@ -5,9 +5,11 @@ import ProgressBar from "../ProgressBar";
 import SelectDropdown from "./SelectDropdown";
 import RadioButtons from "./RadioButtons";
 import ChooseFile from "./ChooseFile";
+import useStorage from "../../hooks/useStorage";
 
-const UploadForm = () => {
-  const [file, setFile] = useState(null);
+const UploadForm = ({ closeUploadModal }) => {
+  const { uploadToFirebase } = useStorage();
+  const [file, setFile] = useState([]);
   const [artType, setArtType] = useState(null);
   const [imageData, setImageData] = useState(null);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
@@ -21,17 +23,18 @@ const UploadForm = () => {
       type: artType,
       selectedImageUrl,
     });
+    uploadToFirebase();
     setShowImagePreview(false);
   };
 
-  useEffect(() => {
-    if (!imageData) {
-      setFile(null);
-      setSelectedImageUrl(null);
-      setLevel(null);
-      setArtType(null);
-    }
-  }, [setFile, setArtType, setSelectedImageUrl, setLevel, imageData]);
+  // useEffect(() => {
+  //   if (!imageData) {
+  //     setFile(null);
+  //     setSelectedImageUrl(null);
+  //     setLevel(null);
+  //     setArtType(null);
+  //   }
+  // }, [setFile, setArtType, setSelectedImageUrl, setLevel, imageData]);
   return (
     <Center>
       <Box
@@ -45,14 +48,20 @@ const UploadForm = () => {
           <ChooseFile
             setShowImagePreview={setShowImagePreview}
             setSelectedImageUrl={setSelectedImageUrl}
+            selectedImageUrl={selectedImageUrl}
             setFile={setFile}
+            file={file}
           />
           <Center>
             {/* Preview image after selecting */}
-            {selectedImageUrl && showImagePreview && (
-              <Image w={150} alt='painting' pr={5} src={selectedImageUrl} />
-            )}
-            {imageData && file && (
+            {selectedImageUrl &&
+              showImagePreview &&
+              selectedImageUrl.map((url) => {
+                return (
+                  <Image w={150} alt='painting' pr={5} src={url} key={url} />
+                );
+              })}
+            {imageData && file?.length > 0 && (
               <Box w={150}>
                 <Center>
                   <ProgressBar
@@ -61,6 +70,7 @@ const UploadForm = () => {
                     setImageData={setImageData}
                     imageData={imageData}
                     type={artType}
+                    closeUploadModal={closeUploadModal}
                   />
                 </Center>
               </Box>
@@ -70,9 +80,18 @@ const UploadForm = () => {
               flexDirection='column'
               height={130}
             >
-              <Text style={{ paddingRight: "5px" }} isTruncated maxW={200}>
-                {file?.name}{" "}
-              </Text>
+              {file?.map((info) => {
+                return (
+                  <Text
+                    style={{ paddingRight: "5px" }}
+                    isTruncated
+                    maxW={200}
+                    key={info.name}
+                  >
+                    {info.name}{" "}
+                  </Text>
+                );
+              })}
               <SelectDropdown setArtType={setArtType} />
               <RadioButtons
                 level={level}
@@ -81,12 +100,12 @@ const UploadForm = () => {
               />
               <Button
                 colorScheme='green'
-                _hover={{ background: "dark" }}
-                _disabled={{ opacity: "0.3" }}
-                background='g'
+                _hover={{ background: "g.dark" }}
+                _disabled={{ opacity: "0.3", cursor: "not-allowed" }}
+                background='g.light'
                 size='sm'
                 onClick={handleImageUpload}
-                disabled={!file || !level || !artType ? true : false}
+                disabled={file?.length < 1 || !level || !artType ? true : false}
               >
                 Upload
               </Button>
