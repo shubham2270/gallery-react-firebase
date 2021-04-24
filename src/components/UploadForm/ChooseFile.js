@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import imageCompression from "browser-image-compression";
 
 const ChooseFile = ({
@@ -7,7 +7,14 @@ const ChooseFile = ({
   setSelectedImageUrl,
   setFile,
   file,
+  setImageData,
 }) => {
+  // Reset selected images if upload is clicked
+  const resetSelectedImage = useCallback(() => {
+    setFile([]);
+    setSelectedImageUrl([]);
+  }, [setFile, setSelectedImageUrl]);
+
   // -------------image compress codes-------------------
   async function handleImageSelect(event) {
     setShowImagePreview(true);
@@ -36,7 +43,11 @@ const ChooseFile = ({
         try {
           const compressedFile = await imageCompression(imageFile, options);
           imageFiles = [...imageFiles, compressedFile];
-          await setFile(imageFiles); // write your own logic
+          await setImageData((prevState) => [
+            ...prevState,
+            { file: compressedFile },
+          ]);
+          // await setFile(imageFiles); // write your own logic
         } catch (error) {
           console.log(error);
         }
@@ -51,6 +62,7 @@ const ChooseFile = ({
         accept='image/*'
         multiple
         onChange={(event) => handleImageSelect(event)}
+        onClick={() => resetSelectedImage()}
         className='selectFileInput'
       />
       <span>+</span>

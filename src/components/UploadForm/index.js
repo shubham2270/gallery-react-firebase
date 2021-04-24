@@ -8,24 +8,28 @@ import ChooseFile from "./ChooseFile";
 import useStorage from "../../hooks/useStorage";
 
 const UploadForm = ({ closeUploadModal }) => {
-  const { uploadToFirebase } = useStorage();
   const [file, setFile] = useState([]);
   const [artType, setArtType] = useState(null);
-  const [imageData, setImageData] = useState(null);
+  const [imageData, setImageData] = useState([]);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
   const [showImagePreview, setShowImagePreview] = useState(true);
   const [level, setLevel] = useState(null);
+  const { uploadToFirebase } = useStorage();
 
   const handleImageUpload = () => {
-    setImageData({
-      file,
-      level,
-      type: artType,
-      selectedImageUrl,
-    });
-    uploadToFirebase();
+    console.log(">>>>>>>>>>>>>>>>>>NNNNNN", imageData);
+    // setImageData({
+    //   file,
+    //   type: artType,
+    //   level,
+    //   selectedImageUrl,
+    // });
+
+    // uploadToFirebase(file, artType, level);
     setShowImagePreview(false);
   };
+
+  console.log("Image Data::", imageData);
 
   // useEffect(() => {
   //   if (!imageData) {
@@ -37,6 +41,7 @@ const UploadForm = ({ closeUploadModal }) => {
   // }, [setFile, setArtType, setSelectedImageUrl, setLevel, imageData]);
   return (
     <Center>
+      {console.log("Image Data::", imageData)}
       <Box
         borderWidth='2px'
         borderRadius='lg'
@@ -51,17 +56,10 @@ const UploadForm = ({ closeUploadModal }) => {
             selectedImageUrl={selectedImageUrl}
             setFile={setFile}
             file={file}
+            setImageData={setImageData}
           />
           <Center>
-            {/* Preview image after selecting */}
-            {selectedImageUrl &&
-              showImagePreview &&
-              selectedImageUrl.map((url) => {
-                return (
-                  <Image w={150} alt='painting' pr={5} src={url} key={url} />
-                );
-              })}
-            {imageData && file?.length > 0 && (
+            {imageData.length > 0 && file?.length > 0 && (
               <Box w={150}>
                 <Center>
                   <ProgressBar
@@ -80,24 +78,56 @@ const UploadForm = ({ closeUploadModal }) => {
               flexDirection='column'
               height={130}
             >
-              {file?.map((info) => {
-                return (
-                  <Text
-                    style={{ paddingRight: "5px" }}
-                    isTruncated
-                    maxW={200}
-                    key={info.name}
-                  >
-                    {info.name}{" "}
-                  </Text>
-                );
-              })}
-              <SelectDropdown setArtType={setArtType} />
-              <RadioButtons
-                level={level}
-                setLevel={setLevel}
-                artType={artType}
-              />
+              <Flex>
+                {/* Preview image after selecting */}
+                {selectedImageUrl &&
+                  showImagePreview &&
+                  selectedImageUrl.map((url) => {
+                    return (
+                      <Image
+                        w={150}
+                        alt='painting'
+                        pr={5}
+                        src={url}
+                        key={url}
+                      />
+                    );
+                  })}
+                {imageData?.map((info, i) => {
+                  return (
+                    <Text
+                      style={{ paddingRight: "5px" }}
+                      isTruncated
+                      maxW={200}
+                      key={i}
+                    >
+                      {info.file.name}{" "}
+                    </Text>
+                  );
+                })}
+                {imageData?.map((item, i) => {
+                  return (
+                    <div key={item.file.name}>
+                      <SelectDropdown
+                        setArtType={setArtType}
+                        setImageData={setImageData}
+                        index={i}
+                        imageData={imageData}
+                        selectedImage={item}
+                      />
+                      <RadioButtons
+                        level={level}
+                        setLevel={setLevel}
+                        artType={artType}
+                        setImageData={setImageData}
+                        imageData={imageData}
+                        index={i}
+                        selectedImage={item}
+                      />
+                    </div>
+                  );
+                })}
+              </Flex>
               <Button
                 colorScheme='green'
                 _hover={{ background: "g.dark" }}
@@ -105,7 +135,9 @@ const UploadForm = ({ closeUploadModal }) => {
                 background='g.light'
                 size='sm'
                 onClick={handleImageUpload}
-                disabled={file?.length < 1 || !level || !artType ? true : false}
+                // disabled={
+                //   imageData?.length < 1 || !level || !artType ? true : false
+                // }
               >
                 Upload
               </Button>

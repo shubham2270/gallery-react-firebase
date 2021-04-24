@@ -5,7 +5,7 @@ import {
   timestamp,
 } from "../firebase/config";
 
-const useStorage = (file, type, level) => {
+const useStorage = () => {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
@@ -34,7 +34,7 @@ const useStorage = (file, type, level) => {
   //   );
   // }, [file]);
 
-  const uploadToFirebase = async () => {
+  const uploadToFirebase = async (file, type, level) => {
     const collectionRef = projectFirestore.collection("images");
     try {
       await Promise.all(

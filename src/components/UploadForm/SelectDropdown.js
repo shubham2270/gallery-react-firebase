@@ -3,9 +3,16 @@ import { Select } from "@chakra-ui/react";
 
 import { artTypes } from "../../constants/artTypes";
 
-const SelectDropdown = ({ setArtType }) => {
+const SelectDropdown = ({ setImageData, index, imageData, selectedImage }) => {
   const handleDropdownChange = (e) => {
-    setArtType(e.target.value);
+    let copyImageData = imageData;
+    imageData.map((item, i) => {
+      // change only clicked dropdown data in state
+      if (i === index) {
+        return (copyImageData[index].type = e.target.value);
+      }
+    });
+    setImageData(copyImageData);
   };
 
   return (
@@ -14,6 +21,7 @@ const SelectDropdown = ({ setArtType }) => {
       size='sm'
       onChange={(e) => handleDropdownChange(e)}
       isRequired
+      value={selectedImage.type}
     >
       {artTypes.map((type) => {
         const { value } = type;
