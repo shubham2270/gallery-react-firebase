@@ -59,13 +59,13 @@ function App() {
         motionPreset='slideInBottom'
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent minW={500} overflow='hidden'>
           <ModalHeader>Upload Art</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {isAdmin && <UploadForm closeUploadModal={onClose} />}
           </ModalBody>
-          <ModalFooter />
+          {/* <ModalFooter /> */}
         </ModalContent>
       </ChakaraModal>
       <NavBar />

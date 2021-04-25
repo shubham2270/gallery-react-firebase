@@ -18,15 +18,8 @@ const UploadForm = ({ closeUploadModal }) => {
 
   const handleImageUpload = () => {
     console.log(">>>>>>>>>>>>>>>>>>NNNNNN", imageData);
-    // setImageData({
-    //   file,
-    //   type: artType,
-    //   level,
-    //   selectedImageUrl,
-    // });
-
-    // uploadToFirebase(file, artType, level);
-    setShowImagePreview(false);
+    uploadToFirebase(imageData);
+    // setShowImagePreview(false);
   };
 
   console.log("Image Data::", imageData);
@@ -43,11 +36,11 @@ const UploadForm = ({ closeUploadModal }) => {
     <Center>
       {console.log("Image Data::", imageData)}
       <Box
-        borderWidth='2px'
-        borderRadius='lg'
+        // borderWidth='2px'
+        // borderRadius='lg'
         p={5}
         pt={2}
-        borderColor='light-grey'
+        // borderColor='light-grey'
       >
         <form>
           <ChooseFile
@@ -57,6 +50,7 @@ const UploadForm = ({ closeUploadModal }) => {
             setFile={setFile}
             file={file}
             setImageData={setImageData}
+            imageData={imageData}
           />
           <Center>
             {imageData.length > 0 && file?.length > 0 && (
@@ -76,73 +70,77 @@ const UploadForm = ({ closeUploadModal }) => {
             <Flex
               justifyContent='space-between'
               flexDirection='column'
-              height={130}
+              maxHeight={500}
+              minW={450}
+              overflow='auto'
             >
-              <Flex>
+              <Flex direction='column'>
                 {/* Preview image after selecting */}
-                {selectedImageUrl &&
-                  showImagePreview &&
-                  selectedImageUrl.map((url) => {
-                    return (
+                {imageData.map((data, i) => {
+                  const { selectedImageUrl: url, file } = data;
+                  return (
+                    <Flex
+                      key={url}
+                      justifyContent='space-between'
+                      pb={10}
+                      alignItems='center'
+                    >
                       <Image
-                        w={150}
+                        w={100}
                         alt='painting'
                         pr={5}
                         src={url}
                         key={url}
                       />
-                    );
-                  })}
-                {imageData?.map((info, i) => {
-                  return (
-                    <Text
-                      style={{ paddingRight: "5px" }}
-                      isTruncated
-                      maxW={200}
-                      key={i}
-                    >
-                      {info.file.name}{" "}
-                    </Text>
-                  );
-                })}
-                {imageData?.map((item, i) => {
-                  return (
-                    <div key={item.file.name}>
-                      <SelectDropdown
-                        setArtType={setArtType}
-                        setImageData={setImageData}
-                        index={i}
-                        imageData={imageData}
-                        selectedImage={item}
-                      />
-                      <RadioButtons
-                        level={level}
-                        setLevel={setLevel}
-                        artType={artType}
-                        setImageData={setImageData}
-                        imageData={imageData}
-                        index={i}
-                        selectedImage={item}
-                      />
-                    </div>
+
+                      <Flex direction='column' pr={5}>
+                        <Text
+                          style={{ paddingRight: "5px" }}
+                          isTruncated
+                          maxW={200}
+                          // key={i}
+                        >
+                          {file.name}{" "}
+                        </Text>
+                        <SelectDropdown
+                          setArtType={setArtType}
+                          setImageData={setImageData}
+                          index={i}
+                          imageData={imageData}
+                          selectedImage={data}
+                        />
+                        <RadioButtons
+                          level={level}
+                          setLevel={setLevel}
+                          artType={artType}
+                          setImageData={setImageData}
+                          imageData={imageData}
+                          index={i}
+                          selectedImage={data}
+                        />
+                      </Flex>
+                    </Flex>
                   );
                 })}
               </Flex>
-              <Button
-                colorScheme='green'
-                _hover={{ background: "g.dark" }}
-                _disabled={{ opacity: "0.3", cursor: "not-allowed" }}
-                background='g.light'
-                size='sm'
-                onClick={handleImageUpload}
-                // disabled={
-                //   imageData?.length < 1 || !level || !artType ? true : false
-                // }
-              >
-                Upload
-              </Button>
             </Flex>
           </Center>
+          <Flex justifyContent='flex-end'>
+            <Button
+              colorScheme='green'
+              _hover={{ background: "g.dark" }}
+              _disabled={{ opacity: "0.3", cursor: "not-allowed" }}
+              background='g.light'
+              size='md'
+              mt={6}
+              onClick={handleImageUpload}
+              // disabled={
+              //   imageData?.length < 1 || !level || !artType ? true : false
+              // }
+            >
+              Upload
+            </Button>
+          </Flex>
         </form>
       </Box>
     </Center>

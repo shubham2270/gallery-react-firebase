@@ -98,6 +98,19 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
         >
           <TagLabel fontWeight='bold'>{doc.type}</TagLabel>
         </Tag>
+        <Tag
+          size='sm'
+          borderRadius='full'
+          colorScheme='red'
+          variant='subtle'
+          height='70%'
+          pl={3}
+          pr={3}
+          border='2px solid'
+          borderColor='r.light'
+        >
+          <TagLabel fontWeight='bold'>{doc.level}</TagLabel>
+        </Tag>
         {/* <div>{doc.type || "No type"}</div> */}
         {isAdmin && (
           <Button

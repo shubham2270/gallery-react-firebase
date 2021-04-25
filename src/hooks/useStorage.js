@@ -34,15 +34,15 @@ const useStorage = () => {
   //   );
   // }, [file]);
 
-  const uploadToFirebase = async (file, type, level) => {
+  const uploadToFirebase = async (imageData) => {
     const collectionRef = projectFirestore.collection("images");
     try {
       await Promise.all(
-        file.map(
+        imageData.map(
           (imageFile) =>
             new Promise((resolve, reject) => {
-              const storageRef = projectStorage.ref(imageFile.name);
-              storageRef.put(imageFile).on(
+              const storageRef = projectStorage.ref(imageFile.file.name);
+              storageRef.put(imageFile.file).on(
                 "state_changed",
                 (snap) => {
                   let percentage =
@@ -55,7 +55,12 @@ const useStorage = () => {
                   // complete function ....
                   storageRef.getDownloadURL().then((url) => {
                     const createdAt = timestamp();
-                    collectionRef.add({ url, createdAt, type, level });
+                    collectionRef.add({
+                      url,
+                      createdAt,
+                      type: imageFile.type,
+                      level: imageFile.level,
+                    });
                     setUrl(url);
                     resolve(url);
                   });

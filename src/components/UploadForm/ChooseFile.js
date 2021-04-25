@@ -22,15 +22,15 @@ const ChooseFile = ({
 
     const totalFilesLength = event.target.files.length;
 
-    let allImageURL = [];
+    // let allImageURL = [];
     let imageFiles = [...file];
 
     // loop over multiple selected files
     if (event.target.files) {
       for (let i = 0; i < totalFilesLength; i++) {
         const imageFile = event.target.files[i];
-        allImageURL = [...allImageURL, URL?.createObjectURL(imageFile)];
-        setSelectedImageUrl(allImageURL);
+        // allImageURL = [...allImageURL, URL?.createObjectURL(imageFile)];
+        // setSelectedImageUrl(allImageURL);
 
         event.persist();
 
@@ -45,7 +45,10 @@ const ChooseFile = ({
           imageFiles = [...imageFiles, compressedFile];
           await setImageData((prevState) => [
             ...prevState,
-            { file: compressedFile },
+            {
+              file: compressedFile,
+              selectedImageUrl: URL?.createObjectURL(imageFile),
+            },
           ]);
           // await setFile(imageFiles); // write your own logic
         } catch (error) {
