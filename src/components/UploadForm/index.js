@@ -129,7 +129,7 @@ const UploadForm = ({ closeUploadModal }) => {
               )}
             </Flex>
           </Center>
-          <Flex justifyContent='flex-end'>
+          <Flex justifyContent={uploading ? "center" : "flex-end"}>
             <Button
               colorScheme='green'
               _hover={{ background: "g.dark" }}

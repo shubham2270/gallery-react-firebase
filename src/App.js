@@ -81,13 +81,15 @@ function App() {
             filters={filters}
             setFilters={setFilters}
           />
-          <Button
-            background='y.light'
-            _hover={{ bg: "y.dark" }}
-            onClick={onOpen}
-          >
-            Upload New Art
-          </Button>
+          {isAdmin && (
+            <Button
+              background='y.light'
+              _hover={{ bg: "y.dark" }}
+              onClick={onOpen}
+            >
+              Upload New Art
+            </Button>
+          )}
 
           <lottie-player
             autoplay
