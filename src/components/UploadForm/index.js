@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import * as R from "ramda";
 import { Box, Center, Button, Flex, Text, Image } from "@chakra-ui/react";
 
 import ProgressBar from "../ProgressBar";
@@ -17,7 +16,11 @@ const UploadForm = ({ closeUploadModal }) => {
 
   const handleImageUpload = () => {
     setUploading(true);
-    uploadToFirebase(imageData);
+    uploadToFirebase(imageData, "upload");
+    // if (!uploading) {
+    // } else if (uploading) {
+    //   uploadToFirebase(imageData, "cancel");
+    // }
     // setShowImagePreview(false);
   };
 
@@ -47,7 +50,6 @@ const UploadForm = ({ closeUploadModal }) => {
     }
   }, [imageData, setDisableUploadBtn]);
 
-  console.log(R.find(R.propEq("type", ""))(imageData));
   return (
     <Center>
       <Box p={0} pt={2}>
@@ -59,8 +61,7 @@ const UploadForm = ({ closeUploadModal }) => {
             <Flex
               justifyContent='space-between'
               flexDirection='column'
-              maxHeight={500}
-              // minW={300}
+              maxHeight={400}
               overflow='auto'
             >
               {uploading && (
@@ -83,7 +84,7 @@ const UploadForm = ({ closeUploadModal }) => {
                         alignItems='center'
                       >
                         <Image
-                          w={110}
+                          w={100}
                           alt='painting'
                           pr={5}
                           src={url}
@@ -137,9 +138,9 @@ const UploadForm = ({ closeUploadModal }) => {
               size='md'
               mt={6}
               onClick={handleImageUpload}
-              disabled={disableUploadBtn}
+              disabled={uploading || disableUploadBtn}
             >
-              Upload
+              {"Upload"}
             </Button>
           </Flex>
         </form>

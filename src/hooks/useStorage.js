@@ -10,62 +10,62 @@ const useStorage = () => {
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
   const [uploadCompleted, setUploadCompleted] = useState(false);
+  const [cancelled, setCancelled] = useState(false);
 
-  // useEffect(() => {
-  //   // references
-  //   const storageRef = projectStorage.ref(file.name);
-  //   const collectionRef = projectFirestore.collection("images");
-
-  //   storageRef.put(file).on(
-  //     "state_changed",
-  //     (snap) => {
-  //       let percentage = (snap.bytesTransferred / snap.totalBytes) * 100;
-  //       setProgress(percentage);
-  //     },
-  //     (err) => {
-  //       setError(err);
-  //     },
-  //     async () => {
-  //       const url = await storageRef.getDownloadURL();
-  //       const createdAt = timestamp();
-  //       await collectionRef.add({ url, createdAt, type, level });
-  //       setUrl(url);
-  //     }
-  //   );
-  // }, [file]);
-
-  const uploadToFirebase = async (imageData) => {
+  const uploadToFirebase = async (imageData, action) => {
     const collectionRef = projectFirestore.collection("images");
+
     try {
       await Promise.all(
         imageData.map(
           (imageFile) =>
             new Promise((resolve, reject) => {
               const storageRef = projectStorage.ref(imageFile.file.name);
-              storageRef.put(imageFile.file).on(
-                "state_changed",
-                (snap) => {
-                  let percentage =
-                    (snap.bytesTransferred / snap.totalBytes) * 100;
-                  console.log(percentage);
-                  setProgress(percentage);
-                },
-                reject,
-                () => {
-                  // complete function ....
-                  storageRef.getDownloadURL().then((url) => {
-                    const createdAt = timestamp();
-                    collectionRef.add({
-                      url,
-                      createdAt,
-                      type: imageFile.type,
-                      level: imageFile.level,
+              const uploadTask = storageRef.put(imageFile.file);
+
+              // console.log("action-------", action);
+
+              // // Cancel uploading
+              // if (action === "cancel") {
+              //   let output = "";
+              //   output = uploadTask.cancel();
+              //   console.log(output);
+              //   setCancelled(output);
+              // }
+
+              // Uploads the image
+              if (action === "upload") {
+                uploadTask.on(
+                  "state_changed",
+                  (snap) => {
+                    let percentage =
+                      (snap.bytesTransferred / snap.totalBytes) * 100;
+                    console.log(percentage);
+                    setProgress(percentage);
+                  },
+                  reject,
+                  () => {
+                    // complete function ....
+                    storageRef.getDownloadURL().then((url) => {
+                      const createdAt = timestamp();
+                      collectionRef.add({
+                        url,
+                        createdAt,
+                        type: imageFile.type,
+                        level: imageFile.level,
+                      });
+                      setUrl(url);
+                      resolve(url);
                     });
-                    setUrl(url);
-                    resolve(url);
-                  });
-                }
-              );
+                  }
+                );
+              }
+
+              // setTimeout(() => {
+              //   let output = "";
+              //   output = uploadTask.cancel();
+              //   console.log(output);
+              // }, 1000);
             })
         )
       );
@@ -104,7 +104,13 @@ const useStorage = () => {
   //        .catch(err => console.log(err.code));
   // }
 
-  return { progress, url, error, uploadCompleted, uploadToFirebase };
+  return {
+    progress,
+    url,
+    error,
+    uploadCompleted,
+    uploadToFirebase,
+  };
 };
 
 export default useStorage;
