@@ -11,14 +11,17 @@ import {
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
-import { projectFirestore } from "../firebase/config";
+import { projectFirestore, projectStorage } from "../firebase/config";
 
 const Image = ({ setSelectedImg, doc, isAdmin }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const collectionRef = projectFirestore.collection("images");
 
   // Deletes the image from database
-  const removeImage = (imageId) => {
+  const removeImage = (imageId, imageUrl) => {
+    // Deletes the image file from storage
+    projectStorage.refFromURL(imageUrl).delete();
+    // Remove the image doc from firestore
     collectionRef
       .doc(imageId)
       .delete()
@@ -30,11 +33,11 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
       });
   };
 
-  const confirmDelete = (imageId) => {
+  const confirmDelete = (imageId, imageUrl) => {
     const userAction = window.confirm("Are you sure you want to delete image?");
     if (userAction) {
       console.log("DELETED!!!!");
-      removeImage(imageId);
+      removeImage(imageId, imageUrl);
     } else {
       console.log("CANCELLED");
       return;
@@ -119,7 +122,7 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
             _hover={{ bg: "r.dark" }}
             color='white'
             size='sm'
-            onClick={() => confirmDelete(doc.id)}
+            onClick={() => confirmDelete(doc.id, doc.url)}
             leftIcon={<DeleteIcon />}
           >
             Delete
