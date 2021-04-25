@@ -59,7 +59,7 @@ function App() {
         motionPreset='slideInBottom'
       >
         <ModalOverlay />
-        <ModalContent minW={500} overflow='hidden'>
+        <ModalContent overflow='hidden' maxW={400}>
           <ModalHeader>Upload Art</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

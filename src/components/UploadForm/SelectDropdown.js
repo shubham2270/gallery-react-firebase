@@ -1,18 +1,22 @@
 import React from "react";
+import produce from "immer";
 import { Select } from "@chakra-ui/react";
 
 import { artTypes } from "../../constants/artTypes";
 
 const SelectDropdown = ({ setImageData, index, imageData, selectedImage }) => {
   const handleDropdownChange = (e) => {
-    let copyImageData = imageData;
+    e.persist();
     imageData.map((item, i) => {
       // change only clicked dropdown data in state
-      if (i === index) {
-        return (copyImageData[index].type = e.target.value);
-      }
+      setImageData(
+        produce((draft) => {
+          if (i === index) {
+            draft[index].type = e.target.value;
+          }
+        })
+      );
     });
-    setImageData(copyImageData);
   };
 
   return (
@@ -21,7 +25,6 @@ const SelectDropdown = ({ setImageData, index, imageData, selectedImage }) => {
       size='sm'
       onChange={(e) => handleDropdownChange(e)}
       isRequired
-      value={selectedImage.type}
     >
       {artTypes.map((type) => {
         const { value } = type;

@@ -38,7 +38,7 @@ const UploadForm = ({ closeUploadModal }) => {
       <Box
         // borderWidth='2px'
         // borderRadius='lg'
-        p={5}
+        p={0}
         pt={2}
         // borderColor='light-grey'
       >
@@ -54,7 +54,7 @@ const UploadForm = ({ closeUploadModal }) => {
           />
           <Center>
             {imageData.length > 0 && file?.length > 0 && (
-              <Box w={150}>
+              <Box>
                 <Center>
                   <ProgressBar
                     file={file}
@@ -71,13 +71,13 @@ const UploadForm = ({ closeUploadModal }) => {
               justifyContent='space-between'
               flexDirection='column'
               maxHeight={500}
-              minW={450}
+              // minW={300}
               overflow='auto'
             >
               <Flex direction='column'>
                 {/* Preview image after selecting */}
                 {imageData.map((data, i) => {
-                  const { selectedImageUrl: url, file } = data;
+                  const { selectedImageUrl: url, file, type } = data;
                   return (
                     <Flex
                       key={url}
@@ -86,14 +86,20 @@ const UploadForm = ({ closeUploadModal }) => {
                       alignItems='center'
                     >
                       <Image
-                        w={100}
+                        w={110}
                         alt='painting'
                         pr={5}
                         src={url}
                         key={url}
+                        borderRadius
                       />
 
-                      <Flex direction='column' pr={5}>
+                      <Flex
+                        direction='column'
+                        pr={5}
+                        height={120}
+                        justifyContent='space-around'
+                      >
                         <Text
                           style={{ paddingRight: "5px" }}
                           isTruncated
@@ -109,15 +115,18 @@ const UploadForm = ({ closeUploadModal }) => {
                           imageData={imageData}
                           selectedImage={data}
                         />
-                        <RadioButtons
-                          level={level}
-                          setLevel={setLevel}
-                          artType={artType}
-                          setImageData={setImageData}
-                          imageData={imageData}
-                          index={i}
-                          selectedImage={data}
-                        />
+                        {console.log("TYPEEE", type)}
+                        {type && type.length > 0 && type !== "select-one" && (
+                          <RadioButtons
+                            level={level}
+                            setLevel={setLevel}
+                            artType={artType}
+                            setImageData={setImageData}
+                            imageData={imageData}
+                            index={i}
+                            selectedImage={data}
+                          />
+                        )}
                       </Flex>
                     </Flex>
                   );

@@ -1,4 +1,5 @@
 import React from "react";
+import { produce } from "immer";
 import { Box, Stack, Radio, RadioGroup } from "@chakra-ui/react";
 
 const RadioButtons = ({
@@ -11,14 +12,16 @@ const RadioButtons = ({
   index,
 }) => {
   const handleRadioButtons = (value) => {
-    let copyImageData = imageData;
     imageData.map((item, i) => {
       // change only clicked dropdown data in state
-      if (i === index) {
-        return (copyImageData[index].level = value);
-      }
+      setImageData(
+        produce((draft) => {
+          if (i === index) {
+            draft[index].level = value;
+          }
+        })
+      );
     });
-    setImageData(copyImageData);
   };
   return (
     <Box w={169} height={5}>
