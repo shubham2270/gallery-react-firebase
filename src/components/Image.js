@@ -8,10 +8,12 @@ import {
   Spacer,
   Tag,
   TagLabel,
+  Image as ChakaraImage,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 import { projectFirestore, projectStorage } from "../firebase/config";
+import youtubeLogo from "../assets/youtube.png";
 
 const Image = ({ setSelectedImg, doc, isAdmin }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -19,13 +21,13 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
 
   // Deletes the image from database
   const removeImage = (imageId, imageUrl) => {
-    // Deletes the image file from storage
-    projectStorage.refFromURL(imageUrl).delete();
     // Remove the image doc from firestore
     collectionRef
       .doc(imageId)
       .delete()
       .then(() => {
+        // Deletes the image file from storage
+        projectStorage.refFromURL(imageUrl).delete();
         console.log("Image successfully deleted!");
       })
       .catch((error) => {
@@ -88,40 +90,56 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
         justifyContent='space-between'
         alignItems='center'
       >
-        <Tag
-          size='sm'
-          borderRadius='full'
-          colorScheme='teal'
-          variant='subtle'
-          height='70%'
-          pl={3}
-          pr={3}
-          border='2px solid'
-          borderColor='g.light'
-        >
-          <TagLabel fontWeight='bold'>{doc.type}</TagLabel>
-        </Tag>
-        <Tag
-          size='sm'
-          borderRadius='full'
-          colorScheme='red'
-          variant='subtle'
-          height='70%'
-          pl={3}
-          pr={3}
-          border='2px solid'
-          borderColor='r.light'
-        >
-          <TagLabel fontWeight='bold'>{doc.level}</TagLabel>
-        </Tag>
-        {/* <div>{doc.type || "No type"}</div> */}
+        <Flex>
+          <Flex w={145} justifyContent='space-between'>
+            <Tag
+              size='sm'
+              borderRadius='md'
+              colorScheme='teal'
+              variant='subtle'
+              height='70%'
+              pl={1}
+              pr={1}
+              border='2px solid'
+              borderColor='g.light'
+            >
+              <TagLabel fontWeight='bold'>{doc.type}</TagLabel>
+            </Tag>
+            <Tag
+              size='sm'
+              borderRadius='md'
+              colorScheme='red'
+              variant='subtle'
+              height='70%'
+              pl={1}
+              pr={1}
+              border='2px solid'
+              borderColor='r.light'
+            >
+              <TagLabel fontWeight='bold' textTransform='capitalize'>
+                {doc.level}
+              </TagLabel>
+            </Tag>
+          </Flex>
+          {doc.youtube && doc.youtube.length > 0 && (
+            <a href='https://youtu.be/YmnpjKotJQA'>
+              <ChakaraImage
+                src={youtubeLogo}
+                style={{ width: "30px", marginTop: "0" }}
+                ml={2}
+                alt='youtube logo hd'
+                cursor='pointer'
+              />
+            </a>
+          )}
+        </Flex>
         {isAdmin && (
           <Button
             variant='solid'
             background='r.light'
             _hover={{ bg: "r.dark" }}
             color='white'
-            size='sm'
+            size={"xs"}
             onClick={() => confirmDelete(doc.id, doc.url)}
             leftIcon={<DeleteIcon />}
           >

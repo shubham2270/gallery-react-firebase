@@ -31,18 +31,21 @@ const Filters = ({
   }, [setTypeFilter]);
 
   // Handle difficulty level checkbox filter
-  const handleCheckbox = (event) => {
-    const { value, checked } = event.target;
-    let filters = levelFilter;
-    const newFilters = filters.map((filter) => {
-      if (filter.value === value) {
-        return { ...filter, isChecked: checked };
-      } else {
-        return filter;
-      }
-    });
-    setLevelFilter(newFilters);
-  };
+  const handleCheckbox = useCallback(
+    (event) => {
+      const { value, checked } = event.target;
+      let filters = levelFilter;
+      const newFilters = filters.map((filter) => {
+        if (filter.value === value) {
+          return { ...filter, isChecked: checked };
+        } else {
+          return filter;
+        }
+      });
+      setLevelFilter(newFilters);
+    },
+    [setLevelFilter, levelFilter]
+  );
 
   //  handle art type checkbox
   const handleTypeCheckbox = useCallback(
@@ -76,7 +79,7 @@ const Filters = ({
         direction={isSmallerThan720 ? "column" : "row"}
       >
         <Box>
-          <Heading pb={2} as='h6' size='xs' color='b'>
+          <Heading pb={2} as='h6' size='xs' color='b.light'>
             Filter by difficulty level:
           </Heading>
           <Stack spacing={6} direction='row'>
@@ -87,6 +90,7 @@ const Filters = ({
                   value={filter.value}
                   key={filter.value}
                   isChecked={filter.isChecked}
+                  textTransform='capitalize'
                 >
                   {filter.value}
                 </Checkbox>
@@ -98,7 +102,7 @@ const Filters = ({
           <Divider orientation={isSmallerThan720 ? "horizontal" : "vertical"} />
         </Center>
         <Box>
-          <Heading pb={2} as='h6' size='xs' color='b'>
+          <Heading pb={2} as='h6' size='xs' color='b.light'>
             Filter by art type:
           </Heading>
           <Stack

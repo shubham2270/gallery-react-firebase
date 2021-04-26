@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Box, Center, Button, Flex, Text, Image } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Button,
+  Flex,
+  Text,
+  Image,
+  Input,
+} from "@chakra-ui/react";
+import produce from "immer";
 
 import ProgressBar from "../ProgressBar";
 import SelectDropdown from "./SelectDropdown";
@@ -15,13 +24,9 @@ const UploadForm = ({ closeUploadModal }) => {
   const [uploading, setUploading] = useState(false);
 
   const handleImageUpload = () => {
+    console.log("IMage data---", imageData);
     setUploading(true);
     uploadToFirebase(imageData, "upload");
-    // if (!uploading) {
-    // } else if (uploading) {
-    //   uploadToFirebase(imageData, "cancel");
-    // }
-    // setShowImagePreview(false);
   };
 
   // Track if file is uploading or not
@@ -49,6 +54,20 @@ const UploadForm = ({ closeUploadModal }) => {
       }
     }
   }, [imageData, setDisableUploadBtn]);
+
+  const handleYoutubeInput = (e, index) => {
+    e.persist();
+    imageData.map((item, i) => {
+      // change only clicked input data in state
+      setImageData(
+        produce((draft) => {
+          if (i === index) {
+            draft[index].youtube = e.target.value;
+          }
+        })
+      );
+    });
+  };
 
   return (
     <Center>
@@ -95,7 +114,7 @@ const UploadForm = ({ closeUploadModal }) => {
                         <Flex
                           direction='column'
                           pr={5}
-                          height={120}
+                          height={130}
                           justifyContent='space-around'
                         >
                           <Text
@@ -121,6 +140,11 @@ const UploadForm = ({ closeUploadModal }) => {
                               selectedImage={data}
                             />
                           )}
+                          <Input
+                            size='sm'
+                            placeholder='Paste youtube video link'
+                            onChange={(e) => handleYoutubeInput(e, i)}
+                          />
                         </Flex>
                       </Flex>
                     );

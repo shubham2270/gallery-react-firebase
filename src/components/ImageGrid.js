@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import * as R from "ramda";
 import useFirestore from "../hooks/useFirestore";
 import { Box, useMediaQuery } from "@chakra-ui/react";
@@ -22,10 +22,12 @@ const ImageGrid = ({
   const { docs } = useFirestore("images");
 
   // Filters out object from array that contains provided value;
-  const filterImageData = (val) =>
-    R.filter(R.compose(R.any(R.contains(val)), R.values));
+  const filterImageData = useCallback(
+    (val) => R.filter(R.compose(R.any(R.contains(val)), R.values)),
+    []
+  );
 
-  // Store  applied filter in filters array & remove if not applied
+  // Store applied filter in filters array & remove if not applied
   useEffect(() => {
     const allFilters = [...levelFilter, ...typeFilter];
     allFilters.map((levelItem) => {
@@ -49,7 +51,7 @@ const ImageGrid = ({
         }
       }
     });
-  }, [levelFilter, typeFilter]);
+  }, [levelFilter, typeFilter, setFilters, filters]);
 
   // Update docs based on filter applied
   useEffect(() => {
@@ -60,13 +62,14 @@ const ImageGrid = ({
     setDocImageData(R.uniq(filteredDocs));
 
     // display all images if no filter applied
-    if (filteredDocs.length < 1) {
+    if (filters.length < 1) {
       setDocImageData(docs);
     }
-  }, [docs, filters]);
+  }, [docs, filters, filterImageData]);
 
   return (
     <Box p={10} pl={isSmallerThan720 ? 0 : 20} pr={isSmallerThan720 ? 0 : 20}>
+      <div>{docImageData.length}</div>
       <div className='row'>
         {docs &&
           docImageData?.map((doc) => (

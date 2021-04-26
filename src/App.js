@@ -9,7 +9,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
@@ -72,7 +71,11 @@ function App() {
       <Box w='100%' p={isSmallerThan720 ? 5 : 10}>
         <Title />
         <Divider mb={5} pt={5} />
-        <Flex direction={isSmallerThan720 ? "column" : "row"}>
+        <Flex
+          direction={isSmallerThan720 ? "column" : "row"}
+          // bg='red'
+          justifyContent='space-between'
+        >
           <Filters
             levelFilter={levelFilter}
             typeFilter={typeFilter}
@@ -81,6 +84,14 @@ function App() {
             filters={filters}
             setFilters={setFilters}
           />
+
+          <lottie-player
+            autoplay
+            loop
+            mode='normal'
+            src='https://assets5.lottiefiles.com/packages/lf20_lcmz7vzg.json'
+            style={{ width: "320px" }}
+          ></lottie-player>
           {isAdmin && (
             <Button
               background='y.light'
@@ -90,14 +101,6 @@ function App() {
               Upload New Art
             </Button>
           )}
-
-          <lottie-player
-            autoplay
-            loop
-            mode='normal'
-            src='https://assets5.lottiefiles.com/packages/lf20_lcmz7vzg.json'
-            style={{ width: "320px" }}
-          ></lottie-player>
         </Flex>
         <Divider pt={5} />
         <ImageGrid
