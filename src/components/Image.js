@@ -16,6 +16,7 @@ import InfoPopover from "./InfoPopover";
 
 const Image = ({ setSelectedImg, doc, isAdmin }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
   const collectionRef = projectFirestore.collection("images");
 
   // Deletes the image from database
@@ -94,12 +95,18 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
           <InfoPopover level={doc.level} type={doc.type} />
           {doc.youtube && doc.youtube.length > 0 && (
             <a href='https://youtu.be/YmnpjKotJQA'>
+              {loading && <Skeleton w={35} h={5} />}
               <ChakaraImage
                 src={youtubeLogo}
-                style={{ width: "30px", marginTop: "0" }}
+                style={{
+                  width: "30px",
+                  marginTop: "0",
+                  display: `${loading ? "none" : "block"}`,
+                }}
                 ml={2}
                 alt='youtube logo hd'
                 cursor='pointer'
+                onLoad={() => setLoading(false)}
               />
             </a>
           )}

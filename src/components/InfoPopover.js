@@ -13,7 +13,7 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-import { InfoIcon } from "@chakra-ui/icons";
+import { InfoIcon, EditIcon } from "@chakra-ui/icons";
 
 const InfoPopover = ({ level, type }) => {
   return (
@@ -45,6 +45,7 @@ const InfoPopover = ({ level, type }) => {
               >
                 <TagLabel fontWeight='bold'>{type}</TagLabel>
               </Tag>
+              <EditIcon ml={5} color='b.light' />
             </Flex>
             <Flex>
               <Text as='b' fontSize='sm' pr={3}>
