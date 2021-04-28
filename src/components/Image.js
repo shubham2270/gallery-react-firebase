@@ -94,7 +94,7 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
           {/* Image info pop over */}
           <InfoPopover level={doc.level} type={doc.type} />
           {doc.youtube && doc.youtube.length > 0 && (
-            <a href='https://youtu.be/YmnpjKotJQA'>
+            <a href={doc.youtube}>
               {loading && <Skeleton w={35} h={5} />}
               <ChakaraImage
                 src={youtubeLogo}

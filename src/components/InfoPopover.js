@@ -28,45 +28,52 @@ const InfoPopover = ({ level, type }) => {
         <PopoverBody>
           <Flex justifyContent='space-between' direction='column'>
             <Flex pb={2}>
-              <Text as='b' fontSize='sm' pr={3}>
+              <Text as='b' fontSize='sm' width='5em'>
                 Art type:{" "}
               </Text>
-              <Tag
-                size='sm'
-                borderRadius='md'
-                colorScheme='teal'
-                variant='subtle'
-                height='70%'
-                pl={1}
-                pr={1}
-                border='2px solid'
-                borderColor='g.light'
-                justifySelf='left'
-              >
-                <TagLabel fontWeight='bold'>{type}</TagLabel>
-              </Tag>
-              <EditIcon ml={5} color='b.light' />
+              <Flex justifyContent='space-between' w={180}>
+                <Tag
+                  size='sm'
+                  borderRadius='md'
+                  colorScheme='teal'
+                  variant='subtle'
+                  height='70%'
+                  pl={1}
+                  pr={1}
+                  border='2px solid'
+                  borderColor='g.light'
+                  justifySelf='left'
+                >
+                  <TagLabel fontWeight='bold'>{type}</TagLabel>
+                </Tag>
+                {/* Edit icon */}
+                <EditIcon ml={5} color='b.light' cursor='pointer' />
+              </Flex>
             </Flex>
             <Flex>
-              <Text as='b' fontSize='sm' pr={3}>
+              <Text as='b' fontSize='sm' width='5em'>
                 Difficulty:{" "}
               </Text>
-              <Tag
-                size='sm'
-                borderRadius='md'
-                colorScheme='red'
-                variant='subtle'
-                height='70%'
-                pl={1}
-                pr={1}
-                border='2px solid'
-                borderColor='r.light'
-                justifySelf='left'
-              >
-                <TagLabel fontWeight='bold' textTransform='capitalize'>
-                  {level}
-                </TagLabel>
-              </Tag>
+              <Flex justifyContent='space-between' w={180}>
+                <Tag
+                  size='sm'
+                  borderRadius='md'
+                  colorScheme='red'
+                  variant='subtle'
+                  height='70%'
+                  pl={1}
+                  pr={1}
+                  border='2px solid'
+                  borderColor='r.light'
+                  justifySelf='left'
+                >
+                  <TagLabel fontWeight='bold' textTransform='capitalize'>
+                    {level}
+                  </TagLabel>
+                </Tag>
+                {/* Edit icon */}
+                <EditIcon ml={5} color='b.light' cursor='pointer' />
+              </Flex>
             </Flex>
           </Flex>
         </PopoverBody>
