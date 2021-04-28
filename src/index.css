@@ -12,7 +12,7 @@
 
 /* base styles & title */
 body {
-  font-family: "Noto Serif";
+  font-family: "Nunito", sans-serif !important;
   color: var(--secondary);
   margin: 0;
 }
@@ -34,7 +34,7 @@ form {
   border: 4px solid var(--primary);
   border-radius: 50%;
   margin: 10px auto;
-  line-height: 37px;
+  line-height: 34px;
   color: var(--primary);
   font-weight: bold;
   font-size: 50px;
@@ -109,11 +109,9 @@ form {
   -ms-flex: 24%; /* IE10 */
   flex: 24%;
   max-width: 26%;
-  padding: 0 4px;
 }
 
 .column img {
-  margin-top: 8px;
   vertical-align: middle;
   width: 100%;
 }

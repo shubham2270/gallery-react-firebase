@@ -11,6 +11,7 @@ const NavBar = () => {
         color='black'
         display='flex'
         alignItems='center'
+        fontFamily='Nunito'
       >
         Sneha's gallery
       </Heading>

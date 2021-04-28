@@ -6,14 +6,13 @@ import {
   Box,
   Flex,
   Spacer,
-  Tag,
-  TagLabel,
   Image as ChakaraImage,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 import { projectFirestore, projectStorage } from "../firebase/config";
 import youtubeLogo from "../assets/youtube.png";
+import InfoPopover from "./InfoPopover";
 
 const Image = ({ setSelectedImg, doc, isAdmin }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -48,10 +47,9 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
 
   return (
     <Flex
-      borderWidth='3px'
+      borderWidth='4px'
       borderRadius='lg'
       borderColor='b.light'
-      p='6px'
       maxH='full'
       className='column'
       m='5px'
@@ -62,7 +60,8 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
         <div
           style={{ width: "100%", background: "white" }}
           key={doc.id}
-          layout
+          pr={2}
+          pl={2}
           onClick={() => setSelectedImg(doc.url)}
         >
           {imageLoaded !== doc.url && <Skeleton height='400px' />}
@@ -85,42 +84,14 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
       <Spacer />
       <Flex
         pl='5px'
-        bg='y.light'
+        bg='whiteAlpha.400'
         p='5px'
         justifyContent='space-between'
         alignItems='center'
       >
         <Flex>
-          <Flex w={145} justifyContent='space-between'>
-            <Tag
-              size='sm'
-              borderRadius='md'
-              colorScheme='teal'
-              variant='subtle'
-              height='70%'
-              pl={1}
-              pr={1}
-              border='2px solid'
-              borderColor='g.light'
-            >
-              <TagLabel fontWeight='bold'>{doc.type}</TagLabel>
-            </Tag>
-            <Tag
-              size='sm'
-              borderRadius='md'
-              colorScheme='red'
-              variant='subtle'
-              height='70%'
-              pl={1}
-              pr={1}
-              border='2px solid'
-              borderColor='r.light'
-            >
-              <TagLabel fontWeight='bold' textTransform='capitalize'>
-                {doc.level}
-              </TagLabel>
-            </Tag>
-          </Flex>
+          {/* Image info pop over */}
+          <InfoPopover level={doc.level} type={doc.type} />
           {doc.youtube && doc.youtube.length > 0 && (
             <a href='https://youtu.be/YmnpjKotJQA'>
               <ChakaraImage

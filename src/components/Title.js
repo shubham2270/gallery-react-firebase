@@ -6,7 +6,7 @@ const Title = () => {
   return (
     <Box className='title'>
       <Center>
-        <Heading as='h2' size='xl' color='black'>
+        <Heading as='h2' size='xl' color='black' fontFamily='Nunito'>
           Sneha Art & Paintings
         </Heading>
       </Center>
