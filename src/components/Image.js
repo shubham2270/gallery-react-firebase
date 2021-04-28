@@ -92,7 +92,7 @@ const Image = ({ setSelectedImg, doc, isAdmin }) => {
       >
         <Flex>
           {/* Image info pop over */}
-          <InfoPopover level={doc.level} type={doc.type} />
+          <InfoPopover level={doc.level} type={doc.type} docId={doc.id} />
           {doc.youtube && doc.youtube.length > 0 && (
             <a href={doc.youtube}>
               {loading && <Skeleton w={35} h={5} />}

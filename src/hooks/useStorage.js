@@ -34,33 +34,32 @@ const useStorage = () => {
               // }
 
               // Uploads the image
-              if (action === "upload") {
-                uploadTask.on(
-                  "state_changed",
-                  (snap) => {
-                    let percentage =
-                      (snap.bytesTransferred / snap.totalBytes) * 100;
-                    console.log(percentage);
-                    setProgress(percentage);
-                  },
-                  reject,
-                  () => {
-                    // complete function ....
-                    storageRef.getDownloadURL().then((url) => {
-                      const createdAt = timestamp();
-                      collectionRef.add({
-                        url,
-                        createdAt,
-                        type: imageFile.type,
-                        level: imageFile.level,
-                        youtube: imageFile.youtube,
-                      });
-                      setUrl(url);
-                      resolve(url);
+
+              uploadTask.on(
+                "state_changed",
+                (snap) => {
+                  let percentage =
+                    (snap.bytesTransferred / snap.totalBytes) * 100;
+                  console.log(percentage);
+                  setProgress(percentage);
+                },
+                reject,
+                () => {
+                  // complete function ....
+                  storageRef.getDownloadURL().then((url) => {
+                    const createdAt = timestamp();
+                    collectionRef.add({
+                      url,
+                      createdAt,
+                      type: imageFile.type,
+                      level: imageFile.level,
+                      youtube: imageFile.youtube || "",
                     });
-                  }
-                );
-              }
+                    setUrl(url);
+                    resolve(url);
+                  });
+                }
+              );
 
               // setTimeout(() => {
               //   let output = "";
