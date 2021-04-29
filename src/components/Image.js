@@ -8,12 +8,7 @@ import {
   Spacer,
   Image as ChakaraImage,
 } from "@chakra-ui/react";
-import {
-  DeleteIcon,
-  EditIcon,
-  SmallCloseIcon,
-  CloseIcon,
-} from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon, CloseIcon } from "@chakra-ui/icons";
 
 import { projectFirestore, projectStorage } from "../firebase/config";
 import youtubeLogo from "../assets/youtube.png";
@@ -80,6 +75,7 @@ const Image = ({ setSelectedImg, doc }) => {
       setEditing(false); // close the edit after selecting
     } else {
       alert("Please enter a valid youtube URL!");
+      setInputValue("");
     }
   };
 
@@ -173,20 +169,20 @@ const Image = ({ setSelectedImg, doc }) => {
             </Button>
           )}
           {/* Edit icon */}
-          {!editing ? (
+          {isAdmin && !editing ? (
             <EditIcon
               ml={5}
               color='y.light'
               cursor='pointer'
               onClick={() => handleEdit(doc.name)}
             />
-          ) : (
+          ) : isAdmin ? (
             <CloseIcon
               color='y.light'
               ml={3}
               onClick={() => handleEdit(doc.name)}
             />
-          )}
+          ) : null}
         </Flex>
         {isAdmin && (
           <Button
