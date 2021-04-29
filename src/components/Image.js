@@ -7,6 +7,7 @@ import {
   Flex,
   Spacer,
   Image as ChakaraImage,
+  Tooltip,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -128,26 +129,34 @@ const Image = ({ setSelectedImg, doc }) => {
           <InfoPopover level={doc.level} type={doc.type} docId={doc.id} />
 
           {!editing && (
-            <a
-              href={doc.youtube}
-              onClick={(e) => (isYoutubeLink ? {} : e.preventDefault())}
-              target='blank'
+            <Tooltip
+              label={
+                isYoutubeLink
+                  ? "Watch on Youtube!"
+                  : "Youtube link will be updated soon!"
+              }
             >
-              {loading && <Skeleton w={35} h={5} />}
-              <ChakaraImage
-                src={youtubeLogo}
-                style={{
-                  width: "30px",
-                  marginTop: "0",
-                  display: `${loading ? "none" : "block"}`,
-                  opacity: `${isYoutubeLink ? 1 : 0.3}`,
-                }}
-                ml={2}
-                alt='logo'
-                cursor='pointer'
-                onLoad={() => setLoading(false)}
-              />
-            </a>
+              <a
+                href={doc.youtube}
+                onClick={(e) => (isYoutubeLink ? {} : e.preventDefault())}
+                target='blank'
+              >
+                {loading && <Skeleton w={35} h={5} />}
+                <ChakaraImage
+                  src={youtubeLogo}
+                  style={{
+                    width: "30px",
+                    marginTop: "0",
+                    display: `${loading ? "none" : "block"}`,
+                    opacity: `${isYoutubeLink ? 1 : 0.3}`,
+                  }}
+                  ml={2}
+                  alt='logo'
+                  cursor='pointer'
+                  onLoad={() => setLoading(false)}
+                />
+              </a>
+            </Tooltip>
           )}
           {/* Youtube edit input field */}
           {editing && (
