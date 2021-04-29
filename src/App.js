@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import {
   Modal as ChakaraModal,
   Box,
@@ -51,73 +51,75 @@ function App() {
 
   return (
     <>
-      <ChakaraModal
-        isCentered
-        onClose={onClose}
-        isOpen={isOpen}
-        motionPreset='slideInBottom'
-      >
-        <ModalOverlay />
-        <ModalContent overflow='hidden' maxW={400}>
-          <ModalHeader>Upload Art</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {isAdmin && <UploadForm closeUploadModal={onClose} />}
-          </ModalBody>
-          {/* <ModalFooter /> */}
-        </ModalContent>
-      </ChakaraModal>
-      <NavBar />
-      <Box w='100%' p={isSmallerThan720 ? 5 : 10}>
-        <Title />
-        <Divider mb={5} pt={5} />
-        <Flex
-          direction={isSmallerThan720 ? "column" : "row"}
-          // bg='red'
-          justifyContent='space-between'
+      <isAdminContext.Provider value={isAdmin}>
+        <ChakaraModal
+          isCentered
+          onClose={onClose}
+          isOpen={isOpen}
+          motionPreset='slideInBottom'
         >
-          <Filters
+          <ModalOverlay />
+          <ModalContent overflow='hidden' maxW={400}>
+            <ModalHeader>Upload Art</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {isAdmin && <UploadForm closeUploadModal={onClose} />}
+            </ModalBody>
+            {/* <ModalFooter /> */}
+          </ModalContent>
+        </ChakaraModal>
+        <NavBar />
+        <Box w='100%' p={isSmallerThan720 ? 5 : 10}>
+          <Title />
+          <Divider mb={5} pt={5} />
+          <Flex
+            direction={isSmallerThan720 ? "column" : "row"}
+            // bg='red'
+            justifyContent='space-between'
+          >
+            <Filters
+              levelFilter={levelFilter}
+              typeFilter={typeFilter}
+              setTypeFilter={setTypeFilter}
+              setLevelFilter={setLevelFilter}
+              filters={filters}
+              setFilters={setFilters}
+            />
+
+            <lottie-player
+              autoplay
+              loop
+              mode='normal'
+              src='https://assets5.lottiefiles.com/packages/lf20_lcmz7vzg.json'
+              style={{ width: "320px" }}
+            ></lottie-player>
+            {isAdmin && (
+              <Button
+                background='y.light'
+                _hover={{ bg: "y.dark" }}
+                onClick={onOpen}
+              >
+                Upload New Art
+              </Button>
+            )}
+          </Flex>
+          <Divider pt={5} />
+          <ImageGrid
+            setSelectedImg={setSelectedImg}
             levelFilter={levelFilter}
             typeFilter={typeFilter}
-            setTypeFilter={setTypeFilter}
-            setLevelFilter={setLevelFilter}
+            docs={docs}
             filters={filters}
             setFilters={setFilters}
           />
-
-          <lottie-player
-            autoplay
-            loop
-            mode='normal'
-            src='https://assets5.lottiefiles.com/packages/lf20_lcmz7vzg.json'
-            style={{ width: "320px" }}
-          ></lottie-player>
-          {isAdmin && (
-            <Button
-              background='y.light'
-              _hover={{ bg: "y.dark" }}
-              onClick={onOpen}
-            >
-              Upload New Art
-            </Button>
+          {selectedImg && (
+            <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
           )}
-        </Flex>
-        <Divider pt={5} />
-        <ImageGrid
-          setSelectedImg={setSelectedImg}
-          isAdmin={isAdmin}
-          levelFilter={levelFilter}
-          typeFilter={typeFilter}
-          docs={docs}
-          filters={filters}
-          setFilters={setFilters}
-        />
-        {selectedImg && (
-          <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />
-        )}
-      </Box>
+        </Box>
+      </isAdminContext.Provider>
     </>
   );
 }
 
+export const isAdminContext = createContext(false);
 export default App;

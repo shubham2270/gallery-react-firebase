@@ -24,7 +24,6 @@ const UploadForm = ({ closeUploadModal }) => {
   const [uploading, setUploading] = useState(false);
 
   const handleImageUpload = () => {
-    console.log("IMage data---", imageData);
     setUploading(true);
     uploadToFirebase(imageData, "upload");
   };

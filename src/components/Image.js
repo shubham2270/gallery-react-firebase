@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import {
   Button,
@@ -13,11 +13,14 @@ import { DeleteIcon } from "@chakra-ui/icons";
 import { projectFirestore, projectStorage } from "../firebase/config";
 import youtubeLogo from "../assets/youtube.png";
 import InfoPopover from "./InfoPopover";
+import { isAdminContext } from "../App";
 
-const Image = ({ setSelectedImg, doc, isAdmin }) => {
+const Image = ({ setSelectedImg, doc }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const collectionRef = projectFirestore.collection("images");
+
+  const isAdmin = useContext(isAdminContext);
 
   // Deletes the image from database
   const removeImage = (imageId, imageUrl) => {

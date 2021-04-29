@@ -9,7 +9,6 @@ import Image from "./Image";
 
 const ImageGrid = ({
   setSelectedImg,
-  isAdmin,
   filterList,
   levelFilter,
   typeFilter,
@@ -73,12 +72,7 @@ const ImageGrid = ({
       <div className='row'>
         {docs &&
           docImageData?.map((doc) => (
-            <Image
-              doc={doc}
-              setSelectedImg={setSelectedImg}
-              isAdmin={isAdmin}
-              key={doc.id}
-            />
+            <Image doc={doc} setSelectedImg={setSelectedImg} key={doc.id} />
           ))}
       </div>
     </Box>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Popover,
   PopoverTrigger,
@@ -16,6 +16,7 @@ import {
 import { InfoIcon, EditIcon } from "@chakra-ui/icons";
 import SelectDropdown from "./UploadForm/SelectDropdown";
 import RadioButtons from "./UploadForm/RadioButtons";
+import { isAdminContext } from "../App";
 
 // This a component in same file
 const ImageInfoItem = ({
@@ -29,6 +30,8 @@ const ImageInfoItem = ({
   docId,
 }) => {
   const [editing, setEditing] = useState(false);
+
+  const isAdmin = useContext(isAdminContext);
 
   const handleEdit = (name) => {
     info.map((item) => {
@@ -80,12 +83,14 @@ const ImageInfoItem = ({
           </Tag>
         )}
         {/* Edit icon */}
-        <EditIcon
-          ml={5}
-          color='b.light'
-          cursor='pointer'
-          onClick={() => handleEdit(name)}
-        />
+        {isAdmin && (
+          <EditIcon
+            ml={5}
+            color='b.light'
+            cursor='pointer'
+            onClick={() => handleEdit(name)}
+          />
+        )}
       </Flex>
     </Flex>
   );
