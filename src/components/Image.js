@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Button,
@@ -8,19 +8,32 @@ import {
   Spacer,
   Image as ChakaraImage,
 } from "@chakra-ui/react";
-import { DeleteIcon } from "@chakra-ui/icons";
+import {
+  DeleteIcon,
+  EditIcon,
+  SmallCloseIcon,
+  CloseIcon,
+} from "@chakra-ui/icons";
 
 import { projectFirestore, projectStorage } from "../firebase/config";
 import youtubeLogo from "../assets/youtube.png";
 import InfoPopover from "./InfoPopover";
 import { isAdminContext } from "../App";
+import Input from "./UploadForm/Input";
+import useIsValidUrl from "../hooks/useIsValidUrl";
 
 const Image = ({ setSelectedImg, doc }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [inputValue, setInputValue] = useState("");
   const collectionRef = projectFirestore.collection("images");
 
+  const isUrlValid = useIsValidUrl(inputValue);
+
   const isAdmin = useContext(isAdminContext);
+
+  const isYoutubeLink = doc?.youtube && doc.youtube.length;
 
   // Deletes the image from database
   const removeImage = (imageId, imageUrl) => {
@@ -46,6 +59,27 @@ const Image = ({ setSelectedImg, doc }) => {
     } else {
       console.log("CANCELLED");
       return;
+    }
+  };
+
+  // handle youtube url editing
+  const handleEdit = (name) => {
+    if (name === doc.name) {
+      setEditing((prevState) => !prevState);
+    }
+  };
+
+  useEffect(() => {
+    setInputValue(doc.youtube);
+  }, [doc]);
+
+  const handleYoutubeUrlSave = () => {
+    if (isUrlValid || inputValue === "") {
+      const collectionRef = projectFirestore.collection("images");
+      collectionRef.doc(doc.id).update({ youtube: inputValue || "" });
+      setEditing(false); // close the edit after selecting
+    } else {
+      alert("Please enter a valid youtube URL!");
     }
   };
 
@@ -93,11 +127,16 @@ const Image = ({ setSelectedImg, doc }) => {
         justifyContent='space-between'
         alignItems='center'
       >
-        <Flex>
+        <Flex alignItems='center'>
           {/* Image info pop over */}
           <InfoPopover level={doc.level} type={doc.type} docId={doc.id} />
-          {doc.youtube && doc.youtube.length > 0 && (
-            <a href={doc.youtube}>
+
+          {!editing && (
+            <a
+              href={doc.youtube}
+              onClick={(e) => (isYoutubeLink ? {} : e.preventDefault())}
+              target='blank'
+            >
               {loading && <Skeleton w={35} h={5} />}
               <ChakaraImage
                 src={youtubeLogo}
@@ -105,13 +144,48 @@ const Image = ({ setSelectedImg, doc }) => {
                   width: "30px",
                   marginTop: "0",
                   display: `${loading ? "none" : "block"}`,
+                  opacity: `${isYoutubeLink ? 1 : 0.3}`,
                 }}
                 ml={2}
-                alt='youtube logo hd'
+                alt='logo'
                 cursor='pointer'
                 onLoad={() => setLoading(false)}
               />
             </a>
+          )}
+          {/* Youtube edit input field */}
+          {editing && (
+            <Input
+              isEdit
+              inputValue={inputValue}
+              setInputValue={setInputValue}
+            />
+          )}
+          {/* Save button for youtube edit */}
+          {editing && (
+            <Button
+              background='g.light'
+              size='xs'
+              onClick={handleYoutubeUrlSave}
+              ml='2px'
+            >
+              Save
+            </Button>
+          )}
+          {/* Edit icon */}
+          {!editing ? (
+            <EditIcon
+              ml={5}
+              color='y.light'
+              cursor='pointer'
+              onClick={() => handleEdit(doc.name)}
+            />
+          ) : (
+            <CloseIcon
+              color='y.light'
+              ml={3}
+              onClick={() => handleEdit(doc.name)}
+            />
           )}
         </Flex>
         {isAdmin && (

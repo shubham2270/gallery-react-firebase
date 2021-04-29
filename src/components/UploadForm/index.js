@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Center,
-  Button,
-  Flex,
-  Text,
-  Image,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Center, Button, Flex, Text, Image } from "@chakra-ui/react";
 import produce from "immer";
 
 import ProgressBar from "../ProgressBar";
 import SelectDropdown from "./SelectDropdown";
 import RadioButtons from "./RadioButtons";
+import Input from "./Input";
 import ChooseFile from "./ChooseFile";
 import useStorage from "../../hooks/useStorage";
 
@@ -140,9 +133,9 @@ const UploadForm = ({ closeUploadModal }) => {
                             />
                           )}
                           <Input
-                            size='sm'
-                            placeholder='Paste youtube video link'
-                            onChange={(e) => handleYoutubeInput(e, i)}
+                            i={i}
+                            imageData={imageData}
+                            setImageData={setImageData}
                           />
                         </Flex>
                       </Flex>
