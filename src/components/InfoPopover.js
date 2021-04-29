@@ -49,10 +49,10 @@ const ImageInfoItem = ({
 
   return (
     <Flex pb={2}>
-      <Text as='b' fontSize='sm' width='5em'>
+      <Text as='b' fontSize='sm' width='5.5em'>
         {name}
       </Text>
-      <Flex justifyContent='space-between' w={180}>
+      <Flex justifyContent='space-between' w={190}>
         {editing && isType && (
           <SelectDropdown isEdit id={docId} setEditing={setEditing} />
         )}
@@ -100,7 +100,7 @@ const InfoPopover = ({ level, type, docId }) => {
   const [isPopClose, setIsPopClose] = useState(false);
   const info = [
     {
-      name: "Art type",
+      name: "Color used",
     },
     {
       name: "Difficulty",
@@ -124,7 +124,7 @@ const InfoPopover = ({ level, type, docId }) => {
           <Flex justifyContent='space-between' direction='column'>
             {info.map((item) => {
               const { name } = item;
-              const isType = name === "Art type";
+              const isType = name === "Color used";
               return (
                 <ImageInfoItem
                   key={name}
@@ -136,37 +136,6 @@ const InfoPopover = ({ level, type, docId }) => {
                   isPopClose={isPopClose}
                   docId={docId}
                 />
-                // <Flex pb={2}>
-                //   <Text as='b' fontSize='sm' width='5em'>
-                //     {name}
-                //   </Text>
-                //   <Flex justifyContent='space-between' w={180}>
-                //     {editing && <SelectDropdown />}
-                //     <Tag
-                //       size='sm'
-                //       borderRadius='md'
-                //       colorScheme={isType ? "teal" : "red"}
-                //       variant='subtle'
-                //       height='70%'
-                //       pl={1}
-                //       pr={1}
-                //       border='2px solid'
-                //       borderColor={isType ? "g.light" : "r.light"}
-                //       justifySelf='left'
-                //     >
-                //       <TagLabel fontWeight='bold' textTransform='capitalize'>
-                //         {isType ? type : level}
-                //       </TagLabel>
-                //     </Tag>
-                //     {/* Edit icon */}
-                //     <EditIcon
-                //       ml={5}
-                //       color='b.light'
-                //       cursor='pointer'
-                //       onClick={() => handleEdit(name)}
-                //     />
-                //   </Flex>
-                // </Flex>
               );
             })}
           </Flex>
