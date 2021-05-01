@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Box, Center, Button, Flex, Text, Image } from "@chakra-ui/react";
 import produce from "immer";
 
@@ -8,6 +9,8 @@ import RadioButtons from "./RadioButtons";
 import Input from "./Input";
 import ChooseFile from "./ChooseFile";
 import useStorage from "../../hooks/useStorage";
+
+const MotionBox = motion(Box);
 
 const UploadForm = ({ closeUploadModal }) => {
   const { uploadToFirebase, uploadCompleted, progress } = useStorage();
@@ -46,20 +49,6 @@ const UploadForm = ({ closeUploadModal }) => {
       }
     }
   }, [imageData, setDisableUploadBtn]);
-
-  const handleYoutubeInput = (e, index) => {
-    e.persist();
-    imageData.map((item, i) => {
-      // change only clicked input data in state
-      setImageData(
-        produce((draft) => {
-          if (i === index) {
-            draft[index].youtube = e.target.value;
-          }
-        })
-      );
-    });
-  };
 
   return (
     <Center>
@@ -113,25 +102,40 @@ const UploadForm = ({ closeUploadModal }) => {
                             style={{ paddingRight: "5px" }}
                             isTruncated
                             maxW={200}
-                            // key={i}
                           >
                             {file.name}{" "}
                           </Text>
                           <SelectDropdown
-                            // setArtType={setArtType}
                             setImageData={setImageData}
                             index={i}
                             imageData={imageData}
                             selectedImage={data}
                           />
-                          {type && type.length > 0 && type !== "select-one" && (
-                            <RadioButtons
-                              setImageData={setImageData}
-                              imageData={imageData}
-                              index={i}
-                              selectedImage={data}
-                            />
-                          )}
+                          <AnimatePresence>
+                            <Box height='24px'>
+                              {type &&
+                                type.length > 0 &&
+                                type !== "select-one" && (
+                                  <MotionBox
+                                    initial={{ scale: 0.7 }}
+                                    animate={{ scale: 1 }}
+                                    exit={{ scale: 0.1 }}
+                                    transition={{
+                                      duration: 0.4,
+                                      type: "spring",
+                                    }}
+                                  >
+                                    <RadioButtons
+                                      setImageData={setImageData}
+                                      imageData={imageData}
+                                      index={i}
+                                      // key={url}
+                                      selectedImage={data}
+                                    />
+                                  </MotionBox>
+                                )}
+                            </Box>
+                          </AnimatePresence>
                           <Input
                             i={i}
                             imageData={imageData}

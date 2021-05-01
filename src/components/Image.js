@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Button,
   Skeleton,
@@ -18,6 +18,8 @@ import { isAdminContext } from "../App";
 import Input from "./UploadForm/Input";
 import useIsValidUrl from "../hooks/useIsValidUrl";
 
+const MotionFlex = motion(Flex);
+
 const Image = ({ setSelectedImg, doc }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -25,7 +27,7 @@ const Image = ({ setSelectedImg, doc }) => {
   const [inputValue, setInputValue] = useState("");
   const collectionRef = projectFirestore.collection("images");
 
-  const isUrlValid = useIsValidUrl(inputValue);
+  // const isUrlValid = useIsValidUrl(inputValue);
 
   const isAdmin = useContext(isAdminContext);
 
@@ -70,7 +72,7 @@ const Image = ({ setSelectedImg, doc }) => {
   }, [doc]);
 
   const handleYoutubeUrlSave = () => {
-    if (isUrlValid || inputValue === "") {
+    if (inputValue === "") {
       const collectionRef = projectFirestore.collection("images");
       collectionRef.doc(doc.id).update({ youtube: inputValue || "" });
       setEditing(false); // close the edit after selecting
@@ -81,7 +83,7 @@ const Image = ({ setSelectedImg, doc }) => {
   };
 
   return (
-    <Flex
+    <MotionFlex
       borderWidth='4px'
       borderRadius='lg'
       borderColor='b.light'
@@ -90,6 +92,11 @@ const Image = ({ setSelectedImg, doc }) => {
       m='5px'
       flexDirection='column'
       bg='dark'
+      initial={{ x: -1000, opacity: 0 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.2, duration: 0.8, type: "spring" }}
+      exit={{ x: -1000, opacity: 0 }}
+      layout
     >
       <Box>
         <div
@@ -109,10 +116,11 @@ const Image = ({ setSelectedImg, doc }) => {
             }
             src={doc.url}
             alt='uploaded pic'
-            initial={{ opacity: 0.4 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
+            initial={{ y: 500, opacity: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.7, type: "spring" }}
             onLoad={() => setImageLoaded(doc.url)}
+            layout={false}
           />
         </div>
       </Box>
@@ -207,7 +215,7 @@ const Image = ({ setSelectedImg, doc }) => {
           </Button>
         )}
       </Flex>
-    </Flex>
+    </MotionFlex>
   );
 };
 

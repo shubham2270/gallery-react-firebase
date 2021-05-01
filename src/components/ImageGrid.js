@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import * as R from "ramda";
+import { AnimatePresence, motion, AnimateSharedLayout } from "framer-motion";
 import useFirestore from "../hooks/useFirestore";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 
@@ -69,12 +70,14 @@ const ImageGrid = ({
   return (
     <Box p={10} pl={isSmallerThan720 ? 0 : 20} pr={isSmallerThan720 ? 0 : 20}>
       <div>{docImageData.length}</div>
-      <div className='row'>
-        {docs &&
-          docImageData?.map((doc) => (
-            <Image doc={doc} setSelectedImg={setSelectedImg} key={doc.id} />
-          ))}
-      </div>
+      <motion.div className='row'>
+        <AnimatePresence>
+          {docs &&
+            docImageData?.map((doc) => (
+              <Image doc={doc} setSelectedImg={setSelectedImg} key={doc.id} />
+            ))}
+        </AnimatePresence>
+      </motion.div>
     </Box>
   );
 };
