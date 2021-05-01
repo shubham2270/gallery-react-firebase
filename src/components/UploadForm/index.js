@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Box, Center, Button, Flex, Text, Image } from "@chakra-ui/react";
-import produce from "immer";
 
 import ProgressBar from "../ProgressBar";
 import SelectDropdown from "./SelectDropdown";
@@ -11,6 +10,8 @@ import ChooseFile from "./ChooseFile";
 import useStorage from "../../hooks/useStorage";
 
 const MotionBox = motion(Box);
+const MotionText = motion(Text);
+const MotionImage = motion(Image);
 
 const UploadForm = ({ closeUploadModal }) => {
   const { uploadToFirebase, uploadCompleted, progress } = useStorage();
@@ -83,13 +84,16 @@ const UploadForm = ({ closeUploadModal }) => {
                         pb={10}
                         alignItems='center'
                       >
-                        <Image
+                        <MotionImage
                           w={100}
                           alt='painting'
                           pr={5}
                           src={url}
                           key={url}
                           borderRadius
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ duration: 0.2 }}
                         />
 
                         <Flex
@@ -98,19 +102,28 @@ const UploadForm = ({ closeUploadModal }) => {
                           height={130}
                           justifyContent='space-around'
                         >
-                          <Text
+                          <MotionText
                             style={{ paddingRight: "5px" }}
                             isTruncated
                             maxW={200}
+                            initial={{ x: 100, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ duration: 0.2 }}
                           >
                             {file.name}{" "}
-                          </Text>
-                          <SelectDropdown
-                            setImageData={setImageData}
-                            index={i}
-                            imageData={imageData}
-                            selectedImage={data}
-                          />
+                          </MotionText>
+                          <motion.div
+                            initial={{ x: 100, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0.1, duration: 0.2 }}
+                          >
+                            <SelectDropdown
+                              setImageData={setImageData}
+                              index={i}
+                              imageData={imageData}
+                              selectedImage={data}
+                            />
+                          </motion.div>
                           <AnimatePresence>
                             <Box height='24px'>
                               {type &&
@@ -136,11 +149,17 @@ const UploadForm = ({ closeUploadModal }) => {
                                 )}
                             </Box>
                           </AnimatePresence>
-                          <Input
-                            i={i}
-                            imageData={imageData}
-                            setImageData={setImageData}
-                          />
+                          <motion.div
+                            initial={{ x: 100, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0.2, duration: 0.2 }}
+                          >
+                            <Input
+                              i={i}
+                              imageData={imageData}
+                              setImageData={setImageData}
+                            />
+                          </motion.div>
                         </Flex>
                       </Flex>
                     );
