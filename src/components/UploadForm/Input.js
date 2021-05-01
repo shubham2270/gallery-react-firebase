@@ -39,7 +39,7 @@ const Input = ({
       onChange={(e) => handleYoutubeInput(e, i)}
       value={inputValue}
       background='white'
-      width={isSmallerThan720 ? "90px" : "185px"}
+      width={isEdit && isSmallerThan720 ? "90px" : "185px"}
     />
   );
 };

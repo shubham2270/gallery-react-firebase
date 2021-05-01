@@ -72,14 +72,17 @@ const Image = ({ setSelectedImg, doc }) => {
   }, [doc]);
 
   const handleYoutubeUrlSave = () => {
-    if (inputValue === "") {
-      const collectionRef = projectFirestore.collection("images");
-      collectionRef.doc(doc.id).update({ youtube: inputValue || "" });
-      setEditing(false); // close the edit after selecting
-    } else {
-      alert("Please enter a valid youtube URL!");
-      setInputValue("");
-    }
+    const collectionRef = projectFirestore.collection("images");
+    collectionRef.doc(doc.id).update({ youtube: inputValue || "" });
+    setEditing(false); // close the edit after selecting
+    // if (inputValue === "") {
+    //   const collectionRef = projectFirestore.collection("images");
+    //   collectionRef.doc(doc.id).update({ youtube: inputValue || "" });
+    //   setEditing(false); // close the edit after selecting
+    // } else {
+    //   alert("Please enter a valid youtube URL!");
+    //   setInputValue("");
+    // }
   };
 
   return (
@@ -167,24 +170,41 @@ const Image = ({ setSelectedImg, doc }) => {
             </Tooltip>
           )}
           {/* Youtube edit input field */}
+
           {editing && (
-            <Input
-              isEdit
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-            />
+            <motion.div
+              initial={{ x: 500, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -100, opacity: 0 }}
+              transition={{ type: "tween", duration: 0.3 }}
+              key='input'
+            >
+              <Input
+                isEdit
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+              />
+            </motion.div>
           )}
           {/* Save button for youtube edit */}
           {editing && (
-            <Button
-              background='g.light'
-              size='xs'
-              onClick={handleYoutubeUrlSave}
-              ml='2px'
+            <motion.div
+              key='button'
+              initial={{ x: 500, opacity: 1 }}
+              animate={{ x: 0 }}
+              exit={{ x: -100, opacity: 0 }}
             >
-              Save
-            </Button>
+              <Button
+                background='g.light'
+                size='xs'
+                onClick={handleYoutubeUrlSave}
+                ml='2px'
+              >
+                Save
+              </Button>
+            </motion.div>
           )}
+
           {/* Edit icon */}
           {isAdmin && !editing ? (
             <EditIcon
