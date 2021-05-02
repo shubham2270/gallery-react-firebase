@@ -74,7 +74,6 @@ function App() {
           <Divider mb={5} pt={5} />
           <Flex
             direction={isSmallerThan720 ? "column" : "row"}
-            // bg='red'
             justifyContent='space-between'
           >
             <Filters
@@ -86,13 +85,13 @@ function App() {
               setFilters={setFilters}
             />
 
-            <lottie-player
+            {/* <lottie-player
               autoplay
               loop
               mode='normal'
               src='https://assets5.lottiefiles.com/packages/lf20_lcmz7vzg.json'
               style={{ width: "320px" }}
-            ></lottie-player>
+            ></lottie-player> */}
             {isAdmin && (
               <Button
                 background='y.light'

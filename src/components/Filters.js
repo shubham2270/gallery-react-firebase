@@ -11,8 +11,13 @@ import {
   WrapItem,
   useMediaQuery,
   Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuGroup,
 } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 import { artTypes } from "../constants/artTypes";
 import { levelTypes } from "../constants/levelTypes";
@@ -73,7 +78,65 @@ const Filters = ({
 
   return (
     <>
-      <Flex
+      <Menu strategy='fixed' variant='outline'>
+        <MenuButton
+          as={HamburgerIcon}
+          aria-label='Options'
+          icon={<HamburgerIcon />}
+          variant='outline'
+        />
+        <MenuList>
+          <MenuGroup title='Filter by art type:' color='b.light'>
+            {/* <MenuItem command='⌘T'>New Tab</MenuItem> */}
+            {typeFilter.map((type) => {
+              const { value } = type;
+              return (
+                <MenuItem closeOnSelect={false}>
+                  <Checkbox
+                    width={150}
+                    onChange={(event) => handleTypeCheckbox(event)}
+                    value={value}
+                    isChecked={type.isChecked}
+                  >
+                    {value}
+                  </Checkbox>
+                </MenuItem>
+              );
+            })}
+          </MenuGroup>
+          <MenuGroup title='Filter by difficulty level:' color='b.light'>
+            {levelFilter.map((filter) => {
+              return (
+                <MenuItem closeOnSelect={false}>
+                  <Checkbox
+                    onChange={(event) => handleCheckbox(event)}
+                    value={filter.value}
+                    key={filter.value}
+                    isChecked={filter.isChecked}
+                    textTransform='capitalize'
+                  >
+                    {filter.value}
+                  </Checkbox>
+                </MenuItem>
+              );
+            })}
+          </MenuGroup>
+          {filters.length > 0 && (
+            <MenuItem>
+              <Button
+                onClick={resetFilters}
+                size='xs'
+                colorScheme='red'
+                leftIcon={<CloseIcon w={2} h={2} />}
+              >
+                Clear Filter
+              </Button>
+            </MenuItem>
+          )}
+        </MenuList>
+      </Menu>
+
+      {/* <Flex
         w={isSmallerThan720 ? 200 : 820}
         justifyContent='space-between'
         direction={isSmallerThan720 ? "column" : "row"}
@@ -143,7 +206,7 @@ const Filters = ({
             </Button>
           )}
         </Box>
-      </Flex>
+      </Flex> */}
     </>
   );
 };

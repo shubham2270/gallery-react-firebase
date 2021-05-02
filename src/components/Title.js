@@ -1,17 +1,31 @@
 import React from "react";
-import { Heading, Text, Link, Box, Center } from "@chakra-ui/react";
+import {
+  Heading,
+  Text,
+  Link,
+  Box,
+  Center,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const Title = () => {
+  const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
+
   return (
     <Box className='title'>
       <Center>
-        <Heading as='h2' size='xl' color='black' fontFamily='Nunito'>
+        <Heading
+          as='h2'
+          size={isSmallerThan720 ? "md" : "xl"}
+          color='black'
+          fontFamily='Nunito'
+        >
           Sneha Art & Paintings
         </Heading>
       </Center>
       <Center>
-        <Text fontSize='lg'>
+        <Text fontSize={isSmallerThan720 ? "md" : "lg"}>
           Learn these drawings/paintings from basic to advanced in{" "}
           <Link
             color='teal.500'
