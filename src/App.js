@@ -76,14 +76,23 @@ function App() {
             direction={isSmallerThan720 ? "column" : "row"}
             justifyContent='space-between'
           >
-            <Filters
-              levelFilter={levelFilter}
-              typeFilter={typeFilter}
-              setTypeFilter={setTypeFilter}
-              setLevelFilter={setLevelFilter}
-              filters={filters}
-              setFilters={setFilters}
-            />
+            <div
+              style={{
+                position: "fixed",
+                top: isSmallerThan720 ? "50px" : "100px",
+                left: isSmallerThan720 ? "-3px" : "",
+                zIndex: "10",
+              }}
+            >
+              <Filters
+                levelFilter={levelFilter}
+                typeFilter={typeFilter}
+                setTypeFilter={setTypeFilter}
+                setLevelFilter={setLevelFilter}
+                filters={filters}
+                setFilters={setFilters}
+              />
+            </div>
 
             {/* <lottie-player
               autoplay

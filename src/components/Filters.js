@@ -16,6 +16,7 @@ import {
   MenuList,
   MenuItem,
   MenuGroup,
+  IconButton,
 } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 
@@ -78,12 +79,19 @@ const Filters = ({
 
   return (
     <>
-      <Menu strategy='fixed' variant='outline'>
+      <Menu
+        variant='outline'
+        position='fixed'
+        preventOverflow={false}
+        style={{ overflow: "visible" }}
+      >
         <MenuButton
-          as={HamburgerIcon}
-          aria-label='Options'
+          as={IconButton}
+          aria-label='Filters'
           icon={<HamburgerIcon />}
-          variant='outline'
+          background='y.light'
+          position='sticky'
+          top='5px'
         />
         <MenuList>
           <MenuGroup title='Filter by art type:' color='b.light'>

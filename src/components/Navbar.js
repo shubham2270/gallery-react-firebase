@@ -37,7 +37,7 @@ const NavBar = ({ userData }) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 1.5 }}
           mr='12px'
-          size='xs'
+          size={isSmallerThan720 ? "xs" : "md"}
         />
       )}
       <Flex
