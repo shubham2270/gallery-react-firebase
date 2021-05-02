@@ -68,7 +68,7 @@ function App() {
             {/* <ModalFooter /> */}
           </ModalContent>
         </ChakaraModal>
-        <NavBar />
+        <NavBar userData={userData} />
         <Box w='100%' p={isSmallerThan720 ? 5 : 10}>
           <Title />
           <Divider mb={5} pt={5} />
