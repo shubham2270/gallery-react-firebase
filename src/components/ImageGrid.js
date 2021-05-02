@@ -7,6 +7,7 @@ import { Box, useMediaQuery } from "@chakra-ui/react";
 // import useWindowSize from "../hooks/useWindowSize";
 
 import Image from "./Image";
+import NoResult from "./NoResult";
 
 const ImageGrid = ({
   setSelectedImg,
@@ -70,14 +71,18 @@ const ImageGrid = ({
   return (
     <Box p={10} pl={isSmallerThan720 ? 0 : 20} pr={isSmallerThan720 ? 0 : 20}>
       <div>{docImageData.length}</div>
-      <motion.div className='row'>
-        <AnimatePresence>
-          {docs &&
-            docImageData?.map((doc) => (
-              <Image doc={doc} setSelectedImg={setSelectedImg} key={doc.id} />
-            ))}
-        </AnimatePresence>
-      </motion.div>
+      {filters.length > 0 && docImageData.length < 1 ? (
+        <NoResult />
+      ) : (
+        <motion.div className='row'>
+          <AnimatePresence>
+            {docs &&
+              docImageData?.map((doc) => (
+                <Image doc={doc} setSelectedImg={setSelectedImg} key={doc.id} />
+              ))}
+          </AnimatePresence>
+        </motion.div>
+      )}
     </Box>
   );
 };
