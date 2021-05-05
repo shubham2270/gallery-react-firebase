@@ -1,14 +1,6 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, memo } from "react";
 import {
   Checkbox,
-  Stack,
-  Heading,
-  Box,
-  Flex,
-  Divider,
-  Center,
-  Wrap,
-  WrapItem,
   useMediaQuery,
   Button,
   Menu,
@@ -79,27 +71,19 @@ const Filters = ({
 
   return (
     <>
-      <Menu
-        variant='outline'
-        position='fixed'
-        preventOverflow={false}
-        style={{ overflow: "visible" }}
-      >
+      <Menu variant='outline'>
         <MenuButton
           as={IconButton}
           aria-label='Filters'
           icon={<HamburgerIcon />}
           background='y.light'
-          position='sticky'
-          top='5px'
         />
         <MenuList>
-          <MenuGroup title='Filter by art type:' color='b.light'>
-            {/* <MenuItem command='⌘T'>New Tab</MenuItem> */}
+          <MenuGroup title='Filter by color used:' color='b.light'>
             {typeFilter.map((type) => {
               const { value } = type;
               return (
-                <MenuItem closeOnSelect={false}>
+                <MenuItem closeOnSelect={false} key={value}>
                   <Checkbox
                     width={150}
                     onChange={(event) => handleTypeCheckbox(event)}
@@ -114,16 +98,17 @@ const Filters = ({
           </MenuGroup>
           <MenuGroup title='Filter by difficulty level:' color='b.light'>
             {levelFilter.map((filter) => {
+              const { value, isChecked } = filter;
               return (
-                <MenuItem closeOnSelect={false}>
+                <MenuItem closeOnSelect={false} key={value}>
                   <Checkbox
                     onChange={(event) => handleCheckbox(event)}
-                    value={filter.value}
-                    key={filter.value}
-                    isChecked={filter.isChecked}
+                    value={value}
+                    key={value}
+                    isChecked={isChecked}
                     textTransform='capitalize'
                   >
-                    {filter.value}
+                    {value}
                   </Checkbox>
                 </MenuItem>
               );
@@ -143,80 +128,8 @@ const Filters = ({
           )}
         </MenuList>
       </Menu>
-
-      {/* <Flex
-        w={isSmallerThan720 ? 200 : 820}
-        justifyContent='space-between'
-        direction={isSmallerThan720 ? "column" : "row"}
-      >
-        <Box>
-          <Heading pb={2} as='h6' size='xs' color='b.light' fontFamily='Nunito'>
-            Filter by difficulty level:
-          </Heading>
-          <Stack spacing={6} direction='row'>
-            {levelFilter.map((filter) => {
-              return (
-                <Checkbox
-                  onChange={(event) => handleCheckbox(event)}
-                  value={filter.value}
-                  key={filter.value}
-                  isChecked={filter.isChecked}
-                  textTransform='capitalize'
-                >
-                  {filter.value}
-                </Checkbox>
-              );
-            })}
-          </Stack>
-        </Box>
-        <Center height='50px'>
-          <Divider orientation={isSmallerThan720 ? "horizontal" : "vertical"} />
-        </Center>
-        <Box>
-          <Heading pb={2} as='h6' size='xs' color='b.light' fontFamily='Nunito'>
-            Filter by art type:
-          </Heading>
-          <Stack
-            spacing={1}
-            direction={isSmallerThan720 ? "column" : "row"}
-            width={isSmallerThan720 ? "300px" : "500px"}
-          >
-            <Wrap>
-              {typeFilter.map((type) => {
-                const { value } = type;
-                return (
-                  <WrapItem key={value}>
-                    <Center>
-                      <Checkbox
-                        width={150}
-                        onChange={(event) => handleTypeCheckbox(event)}
-                        value={value}
-                        isChecked={type.isChecked}
-                      >
-                        {value}
-                      </Checkbox>
-                    </Center>
-                  </WrapItem>
-                );
-              })}
-            </Wrap>
-          </Stack>
-        </Box>
-        <Box pt={isSmallerThan720 ? 5 : 0} pb={5} w={94} h={24}>
-          {filters.length > 0 && (
-            <Button
-              onClick={resetFilters}
-              size='xs'
-              colorScheme='red'
-              leftIcon={<CloseIcon w={2} h={2} />}
-            >
-              Clear Filter
-            </Button>
-          )}
-        </Box>
-      </Flex> */}
     </>
   );
 };
 
-export default Filters;
+export default memo(Filters);

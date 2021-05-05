@@ -1,22 +1,14 @@
 import React, { useState, useEffect, createContext } from "react";
 import {
-  Modal as ChakaraModal,
   Box,
   useMediaQuery,
   Divider,
   Flex,
   Button,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import "@lottiefiles/lottie-player";
 
 import Title from "./components/Title";
-import UploadForm from "./components/UploadForm";
 import ImageGrid from "./components/ImageGrid";
 import Modal from "./components/Modal";
 import { auth } from "./firebase/config";
@@ -25,6 +17,7 @@ import Filters from "./components/Filters";
 import useFirestore from "./hooks/useFirestore";
 import { artTypes } from "./constants/artTypes";
 import { levelTypes } from "./constants/levelTypes";
+import UploadFormModal from "./components/UploadForm/UploadFormModal";
 
 function App() {
   const { docs } = useFirestore("images");
@@ -52,22 +45,7 @@ function App() {
   return (
     <>
       <isAdminContext.Provider value={isAdmin}>
-        <ChakaraModal
-          isCentered
-          onClose={onClose}
-          isOpen={isOpen}
-          motionPreset='slideInBottom'
-        >
-          <ModalOverlay />
-          <ModalContent overflow='hidden' maxW={400}>
-            <ModalHeader>Upload Art</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              {isAdmin && <UploadForm closeUploadModal={onClose} />}
-            </ModalBody>
-            {/* <ModalFooter /> */}
-          </ModalContent>
-        </ChakaraModal>
+        <UploadFormModal isOpen={isOpen} onClose={onClose} isAdmin={isAdmin} />
         <NavBar userData={userData} />
         <Box w='100%' p={isSmallerThan720 ? 5 : 10}>
           <Title />
@@ -86,21 +64,14 @@ function App() {
             >
               <Filters
                 levelFilter={levelFilter}
+                setLevelFilter={setLevelFilter}
                 typeFilter={typeFilter}
                 setTypeFilter={setTypeFilter}
-                setLevelFilter={setLevelFilter}
                 filters={filters}
                 setFilters={setFilters}
               />
             </div>
 
-            {/* <lottie-player
-              autoplay
-              loop
-              mode='normal'
-              src='https://assets5.lottiefiles.com/packages/lf20_lcmz7vzg.json'
-              style={{ width: "320px" }}
-            ></lottie-player> */}
             {isAdmin && (
               <Button
                 background='y.light'

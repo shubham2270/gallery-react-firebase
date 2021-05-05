@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, memo } from "react";
 import * as R from "ramda";
-import { AnimatePresence, motion, AnimateSharedLayout } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import useFirestore from "../hooks/useFirestore";
 import { Box, useMediaQuery } from "@chakra-ui/react";
 
@@ -87,4 +87,4 @@ const ImageGrid = ({
   );
 };
 
-export default ImageGrid;
+export default memo(ImageGrid);

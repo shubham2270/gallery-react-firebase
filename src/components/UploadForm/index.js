@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Box, Center, Button, Flex, Text, Image } from "@chakra-ui/react";
+import { Box, Center, Flex, Text, Image } from "@chakra-ui/react";
 
 import ProgressBar from "../ProgressBar";
 import SelectDropdown from "./SelectDropdown";
 import RadioButtons from "./RadioButtons";
 import Input from "./Input";
 import ChooseFile from "./ChooseFile";
-import useStorage from "../../hooks/useStorage";
 
 const MotionBox = motion(Box);
 const MotionText = motion(Text);
 const MotionImage = motion(Image);
 
-const UploadForm = ({ closeUploadModal }) => {
-  const { uploadToFirebase, uploadCompleted, progress } = useStorage();
-
-  const [imageData, setImageData] = useState([]);
-  const [disableUploadBtn, setDisableUploadBtn] = useState(true);
-  const [uploading, setUploading] = useState(false);
-
-  const handleImageUpload = () => {
-    setUploading(true);
-    uploadToFirebase(imageData, "upload");
-  };
-
+const UploadForm = ({
+  closeUploadModal,
+  uploading,
+  setUploading,
+  uploadToFirebase,
+  uploadCompleted,
+  progress,
+  disableUploadBtn,
+  setDisableUploadBtn,
+  imageData,
+  setImageData,
+}) => {
   // Track if file is uploading or not
   useEffect(() => {
     if (uploadCompleted) {
@@ -53,7 +52,7 @@ const UploadForm = ({ closeUploadModal }) => {
 
   return (
     <Center>
-      <Box p={0} pt={2}>
+      <Box p={0}>
         <form>
           {!uploading && (
             <ChooseFile setImageData={setImageData} imageData={imageData} />
@@ -62,8 +61,8 @@ const UploadForm = ({ closeUploadModal }) => {
             <Flex
               justifyContent='space-between'
               flexDirection='column'
-              maxHeight={400}
-              overflow='auto'
+              // maxHeight={400}
+              // overflow='auto'
             >
               {uploading && (
                 <Box>
@@ -168,7 +167,7 @@ const UploadForm = ({ closeUploadModal }) => {
               )}
             </Flex>
           </Center>
-          <Flex justifyContent={uploading ? "center" : "flex-end"}>
+          {/* <Flex justifyContent={uploading ? "center" : "flex-end"}>
             <Button
               colorScheme='green'
               _hover={{ background: "g.dark" }}
@@ -181,7 +180,7 @@ const UploadForm = ({ closeUploadModal }) => {
             >
               {"Upload"}
             </Button>
-          </Flex>
+          </Flex> */}
         </form>
       </Box>
     </Center>

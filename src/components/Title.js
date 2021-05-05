@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Heading,
   Text,
@@ -11,7 +11,6 @@ import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const Title = () => {
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
-
   return (
     <Box className='title'>
       <Center>
@@ -42,4 +41,4 @@ const Title = () => {
   );
 };
 
-export default Title;
+export default memo(Title);

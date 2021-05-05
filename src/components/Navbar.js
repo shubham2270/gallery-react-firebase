@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   Flex,
   Heading,
@@ -61,4 +61,4 @@ const NavBar = ({ userData }) => {
   );
 };
 
-export default NavBar;
+export default memo(NavBar);
