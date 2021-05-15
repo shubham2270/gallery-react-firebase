@@ -14,7 +14,8 @@ import UploadForm from "./index";
 import useStorage from "../../hooks/useStorage";
 
 const UploadFormModal = ({ isOpen, onClose, isAdmin }) => {
-  const { uploadToFirebase, uploadCompleted, progress } = useStorage();
+  const { uploadToFirebase, uploadCompleted, progress, setUploadCompleted } =
+    useStorage();
 
   const [uploading, setUploading] = useState(false);
   const [disableUploadBtn, setDisableUploadBtn] = useState(true);
@@ -33,12 +34,7 @@ const UploadFormModal = ({ isOpen, onClose, isAdmin }) => {
   }, [isOpen, setImageData]);
 
   return (
-    <ChakaraModal
-      // isCentered
-      onClose={onClose}
-      isOpen={isOpen}
-      scrollBehavior='outside'
-    >
+    <ChakaraModal onClose={onClose} isOpen={isOpen} scrollBehavior='outside'>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Upload Art</ModalHeader>
@@ -51,6 +47,7 @@ const UploadFormModal = ({ isOpen, onClose, isAdmin }) => {
               setUploading={setUploading}
               uploadToFirebase={uploadToFirebase}
               uploadCompleted={uploadCompleted}
+              setUploadCompleted={setUploadCompleted}
               progress={progress}
               disableUploadBtn={disableUploadBtn}
               setDisableUploadBtn={setDisableUploadBtn}

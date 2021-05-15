@@ -82,6 +82,7 @@ const useStorage = () => {
     error,
     uploadCompleted,
     uploadToFirebase,
+    setUploadCompleted,
   };
 };
 

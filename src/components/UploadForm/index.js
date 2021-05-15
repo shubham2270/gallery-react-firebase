@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Box, Center, Flex, Text, Image } from "@chakra-ui/react";
 
@@ -23,6 +23,7 @@ const UploadForm = ({
   setDisableUploadBtn,
   imageData,
   setImageData,
+  setUploadCompleted,
 }) => {
   // Track if file is uploading or not
   useEffect(() => {
@@ -35,8 +36,9 @@ const UploadForm = ({
   useEffect(() => {
     if (uploadCompleted) {
       closeUploadModal();
+      setUploadCompleted(false);
     }
-  }, [closeUploadModal, uploadCompleted]);
+  }, [setUploadCompleted, closeUploadModal, uploadCompleted]);
 
   // Disable upload button if all image data is not filled
   useEffect(() => {
