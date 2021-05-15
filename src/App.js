@@ -27,6 +27,7 @@ function App() {
   const [levelFilter, setLevelFilter] = useState([]); // Manage difficulty level filter
   const [typeFilter, setTypeFilter] = useState([]); // Manage art type filter
   const [filters, setFilters] = useState([]); // stores all applied filters
+  const [docImageData, setDocImageData] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const adminEmails = ["shubham2270@gmail.com", "guptasneha.sg53@gmail.com"];
@@ -69,6 +70,7 @@ function App() {
                 setTypeFilter={setTypeFilter}
                 filters={filters}
                 setFilters={setFilters}
+                docImageData={docImageData}
               />
             </div>
 
@@ -90,6 +92,8 @@ function App() {
             docs={docs}
             filters={filters}
             setFilters={setFilters}
+            docImageData={docImageData}
+            setDocImageData={setDocImageData}
           />
           {selectedImg && (
             <Modal selectedImg={selectedImg} setSelectedImg={setSelectedImg} />

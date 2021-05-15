@@ -9,6 +9,7 @@ import {
   MenuItem,
   MenuGroup,
   IconButton,
+  Box,
 } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 
@@ -22,8 +23,10 @@ const Filters = ({
   setLevelFilter,
   setFilters,
   filters,
+  docImageData,
 }) => {
   const [isSmallerThan720] = useMediaQuery("(max-width: 720px)");
+
   useEffect(() => {
     setTypeFilter(artTypes);
   }, [setTypeFilter]);
@@ -72,12 +75,25 @@ const Filters = ({
   return (
     <>
       <Menu variant='outline'>
-        <MenuButton
-          as={IconButton}
-          aria-label='Filters'
-          icon={<HamburgerIcon />}
-          background='y.light'
-        />
+        <Box
+          display='flex'
+          borderWidth='2px'
+          borderColor='light-grey'
+          borderRadius='8px'
+          alignItems='center'
+          pr='8px'
+          fontFamily='Nunito'
+          fontWeight='bold'
+          bg='white'
+        >
+          <MenuButton
+            as={IconButton}
+            aria-label='Filters'
+            icon={<HamburgerIcon />}
+            background='y.light'
+          />
+          <div>{docImageData.length} Art</div>
+        </Box>
         <MenuList>
           <MenuGroup title='Filter by color used:' color='b.light'>
             {typeFilter.map((type) => {
